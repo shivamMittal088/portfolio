@@ -1,25 +1,29 @@
-import './App.css'
-import { BrowserRouter } from 'react-router-dom'
-import { Routes, Route } from 'react-router'
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Layout from "../Components/Layout"
+import Hero from "../Components/Hero"
+import Contact from "../Components/Contact"
+import Projects from "../Components/Project"
+import Experience from "../Components/Experience"
 
 function App() {
-  // create routing paths here .
-
   return (
-    <>
+    <BrowserRouter>
+      <Routes>
 
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<div>Home</div>} />
-          <Route path="/about" element={<div>About</div>} />
-          <Route path="/projects" element={<div>Projects</div>} />
-          <Route path="/contact" element={<div>Contact</div>} />
-          <Route path="*" element={<div>404 Not Found</div>} />
+        {/* Layout route */}
+        <Route path="/" element={<Layout />}>
 
-        </Routes>
-      </BrowserRouter>
+          <Route index element={<Hero />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="projects" element={<Projects />} />
+          <Route path="experience" element={<Experience />} />
 
-    </>
+        </Route>
+
+        <Route path="*" element={<div>404</div>} />
+
+      </Routes>
+    </BrowserRouter>
   )
 }
 
