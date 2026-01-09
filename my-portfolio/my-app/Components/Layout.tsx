@@ -1,19 +1,18 @@
 import { Outlet } from "react-router-dom"
 import NavBar from "./NavBar"
+import Footer from "./Footer"
 
 const Layout = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white">
       <NavBar />
 
-      {/* This is where pages change */}
-      <main className="flex-1 pt-24">
+      {/* Main content area */}
+      <main className="flex-1">
         <Outlet />
       </main>
 
-      <footer className="border-t py-6 text-center text-sm text-gray-500">
-        © {new Date().getFullYear()} Shivam Mittal
-      </footer>
+      <Footer />
     </div>
   )
 }

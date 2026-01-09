@@ -1,27 +1,20 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Layout from "../Components/Layout"
 import Hero from "../Components/Hero"
-import Contact from "../Components/Contact"
+import About from "../Components/About"
 import Projects from "../Components/Project"
-import Experience from "../Components/Experience"
+import Contact from "../Components/Contact"
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-
-        {/* Layout route */}
         <Route path="/" element={<Layout />}>
-
           <Route index element={<Hero />} />
-          <Route path="contact" element={<Contact />} />
+          <Route path="about" element={<About />} />
           <Route path="projects" element={<Projects />} />
-          <Route path="experience" element={<Experience />} />
-
+          <Route path="contact" element={<Contact />} />
         </Route>
-
-        <Route path="*" element={<div>404</div>} />
-
       </Routes>
     </BrowserRouter>
   )
