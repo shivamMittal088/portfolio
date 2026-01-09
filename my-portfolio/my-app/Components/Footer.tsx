@@ -3,10 +3,10 @@ import { Github, Linkedin, Mail } from "lucide-react"
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-gray-400">
-      <div className="max-w-5xl mx-auto px-6 py-14 grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div className="max-w-5xl mx-auto px-6 py-6 grid grid-cols-1 md:grid-cols-2 gap-10">
 
         {/* Left */}
-        <div className="space-y-3">
+        <div className="space-y-2">
           <h3 className="text-white text-lg font-medium">Shivam Mittal</h3>
           <p className="text-sm">
             Full-stack developer building modern, scalable web apps.

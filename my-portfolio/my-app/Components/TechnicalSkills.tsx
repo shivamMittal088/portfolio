@@ -31,7 +31,7 @@ const skills: SkillItem[] = [
 
 const TechnicalSkills: React.FC = () => {
   return (
-    <section className="w-full py-4 bg-white">
+    <section className="w-full py-4 pb-8 bg-white">
       <div className="max-w-3xl mx-auto px-6">
         <h2 className="text-2xl font-bold mb-4 text-center">
           Technical Skills

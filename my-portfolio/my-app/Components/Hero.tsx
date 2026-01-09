@@ -3,6 +3,12 @@ import { Link } from "react-router-dom";
 import Interests from "./Interests";
 import TechnicalSkills from "./TechnicalSkills";
 
+const heroPoints: string[] = [
+  "I’m a full-stack developer focused on building clean, scalable web applications using React, TypeScript, Node.js and MongoDB.",
+  "Solved 200+ LeetCode problems covering key data structures and algorithms, strengthening problem-solving and optimization skills.",
+  "Built production-level projects like Food Web App, NetflixGPT, and DevTinder, focused on creating applications that solve real-life problems.",
+];
+
 const Hero: React.FC = () => {
   return (
     <div className="w-[80%] mx-auto">
@@ -17,31 +23,49 @@ const Hero: React.FC = () => {
                 Hi, I’m Shivam Mittal
               </h1>
 
-              <p className="text-gray-700 text-sm ml-4 mb-4 leading-relaxed">
-                I’m a full-stack developer focused on building clean, scalable web
-                applications using React, TypeScript, Node.js and MongoDB.
-              </p>
+              <ul className="ml-4 mb-4 space-y-2 list-disc text-sm text-gray-700 leading-relaxed">
+                {heroPoints.map((point, index) => (
+                  <li
+                    key={index}
+                    className={index === 0 ? "text-gray-700" : "text-gray-600"}
+                  >
+                    {point}
+                  </li>
+                ))}
+              </ul>
 
-              <p className="text-gray-600 ml-4 mb-8 leading-relaxed">
-                I enjoy solving real-world problems through code and continuously
-                improving my skills by building products people actually use.
-              </p>
+               <div className="mt-4 flex flex-wrap items-center gap-4">
 
-              <div className="flex gap-4">
-                <Link
-                  to="/Project"
-                  className="bg-black text-white px-4 py-2 rounded-md"
-                >
-                  View Projects
-                </Link>
+  {/* Primary CTA */}
+  <Link
+    to="/projects"
+    className="px-4 p-2 rounded-lg bg-black text-white font-medium
+               hover:bg-gray-800 transition"
+  >
+    View Projects
+  </Link>
 
-                <Link
-                  to="/Contact"
-                  className="border px-4 py-2 rounded-md"
-                >
-                  Contact Me
-                </Link>
-              </div>
+  {/* Secondary CTA */}
+  <Link
+    to="/contact"
+    className="px-4 py-2 rounded-lg border border-gray-300
+               hover:bg-gray-100 transition"
+  >
+    Contact Me
+  </Link>
+
+  {/* Resume CTA (subtle but premium) */}
+  <a
+    href="/Resume.pdf"
+    download
+    className="px-4 py-3 text-sm flex items-center gap-2 
+               text-gray-600 hover:text-black transition border-black border-b"
+  >
+    ⬇ Download Resume
+  </a>
+
+</div>
+
             </div>
 
             {/* Right: Image */}
@@ -54,8 +78,14 @@ const Hero: React.FC = () => {
                 />
               </div>
             </div>
+
           </div>
         </section>
+
+
+       
+
+
 
         {/* INTERESTS SECTION */}
         <section className="bg-gray-100">
