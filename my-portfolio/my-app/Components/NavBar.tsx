@@ -26,7 +26,7 @@ const NavBar = () => {
           </div>
 
           <div className="group relative">
-            <Link to="/projects" className="text-gray-700 hover:text-black">
+            <Link to="/Project" className="text-gray-700 hover:text-black">
               Projects
             </Link>
             <span className="absolute left-0 -bottom-5 text-xs text-gray-500 opacity-0 group-hover:opacity-100 transition">

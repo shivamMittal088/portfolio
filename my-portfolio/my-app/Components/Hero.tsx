@@ -38,7 +38,7 @@ const Hero: React.FC = () => {
 
   {/* Primary CTA */}
   <Link
-    to="/projects"
+    to="/Project"
     className="px-4 p-2 rounded-lg bg-black text-white font-medium
                hover:bg-gray-800 transition"
   >
