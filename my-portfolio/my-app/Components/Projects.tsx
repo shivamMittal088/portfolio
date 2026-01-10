@@ -49,11 +49,10 @@ const Projects = () => {
       description:
        "Developed a scalable Tinder-style developer matching platform using the MERN stack with a responsive and interactive UI.",
       highlights: [
-        "Built complete backend modules, including Feed, Login, Signup, Connection Requests, Profile, Requests, and Mutual Connections.",
+      "Built complete backend modules, including Feed, Login, Signup, Connection Requests, Profile, Requests, and Mutual Connections.",
       "Implemented secure JWT-based authentication with HTTP-only cookies to protect user sessions and prevent token theft.",
-      "Added a Mutual Connection algorithm and dynamic progress bar to improve user engagement and profile insights.",
       "Enhanced security through input sanitization, bcrypt password hashing, and token validation middleware.",
-      "Deployed the full-stack application on AWS EC2 using NGINX reverse proxy, PM2, and environment-based production configuration.",
+      "Deployed the full-stack application on AWS EC2 using NGINX reverse proxy, PM2 process manager, and configured MongoDB Atlas for database management.",
       "Followed modular architecture principles to ensure scalability, maintainability, and clean separation of concerns.",
       ],
       techStack: [
@@ -80,7 +79,7 @@ const Projects = () => {
       description:
         "AI-powered movie recommendation platform using OpenAI and TMDB.",
       highlights: [
-        "Integrated the TMDB API to fetch real-time movie data and built a shimmer UI for smooth loading states.",
+      "Integrated the TMDB API to fetch real-time movie data and built a shimmer UI for smooth loading states.",
       "Incorporated the OpenAI API (ChatGPT) to generate AI-powered movie suggestions with multi-language support.",
       "Improved performance using memoization, custom hooks, and structured state management with Redux Toolkit.",
       ],
@@ -97,8 +96,8 @@ const Projects = () => {
   ];
 
   return (
-    <section className="w-[70%] mx-auto py-4">
-      <h2 className="text-3xl font-bold mb-8 text-center">Projects</h2>
+    <section className="w-[95%] mx-auto py-4">
+      <h2 className="text-2xl font-bold mb-4 text-center">Projects</h2>
 
       <div className="space-y-8">
         {projects.map((project) => (
@@ -115,7 +114,7 @@ const Projects = () => {
                 <img
                   src={project.images[0]}
                   alt={project.title}
-                  className="w-full h-28 object-cover rounded hover:opacity-90"
+                  className="w-full h-44 object-cover rounded hover:opacity-90"
                 />
               </div>
 
@@ -135,7 +134,7 @@ const Projects = () => {
                   {project.description}
                 </p>
 
-                <ul className="list-disc pl-4 text-sm text-gray-600 mb-2">
+                <ul className="list-disc pl-4 text-sm text-gray-600 mb-2 highlight-font">
                   {project.highlights.map((h, i) => (
                     <li key={i}>{h}</li>
                   ))}

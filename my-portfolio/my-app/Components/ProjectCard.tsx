@@ -1,8 +1,4 @@
-import {
-  Calendar,
-  Github,
-  ExternalLink,
-} from "lucide-react";
+import { Calendar, Github, ExternalLink } from "lucide-react";
 
 export type ProjectCardProps = {
   title: string;
