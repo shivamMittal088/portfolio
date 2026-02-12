@@ -1,103 +1,125 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Interests from "./Interests";
-import TechnicalSkills from "./TechnicalSkills";
+import { Link } from "react-router-dom"
+import { ArrowUpRight, Download } from "lucide-react"
+import Interests from "./Interests"
+import TechnicalSkills from "./TechnicalSkills"
 
-const heroPoints: string[] = [
-  "I’m a full-stack developer focused on building clean, scalable web applications using React, TypeScript, Node.js and MongoDB.",
-  "Solved 200+ LeetCode problems covering key data structures and algorithms, strengthening problem-solving and optimization skills.",
-  "Built production-level projects like Food Web App, NetflixGPT, and DevTinder, focused on creating applications that solve real-life problems.",
-];
+const heroPoints = [
+  "Full-stack engineer crafting scalable products with React, TypeScript, Node.js, and MongoDB.",
+  "250+ data-structure challenges solved to keep problem-solving instincts sharp.",
+  "Shipped DevTinder, NetflixGPT, and other real-world products used by teams and friends.",
+]
 
-const Hero: React.FC = () => {
+const stats = [
+  { value: "3+", label: "Production builds" },
+  { value: "250+", label: "DSA problems" },
+  { value: "5", label: "Core stacks" },
+]
+
+const standoutChips = ["React", "TypeScript", "Node.js", "MongoDB"]
+
+const Hero = () => {
   return (
-    <div className="w-[80%] mx-auto">
-      <>
-        {/* HERO SECTION */}
-        <section className="w-full py-8">
-          <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            
-            {/* Left: Text */}
-            <div>
-              <h1 className="text-3xl md:text-3xl font-bold mb-3">
-                Hi, I’m Shivam Mittal
-              </h1>
-
-              <ul className="ml-4 mb-4 space-y-2 list-disc text-sm text-gray-700 leading-relaxed">
-                {heroPoints.map((point, index) => (
-                  <li
-                    key={index}
-                    className={index === 0 ? "text-gray-700" : "text-gray-600"}
-                  >
-                    {point}
-                  </li>
-                ))}
-              </ul>
-
-               <div className="mt-4 flex flex-wrap items-center gap-4">
-
-  {/* Primary CTA */}
-  <Link
-    to="/Project"
-    className="px-4 p-2 rounded-lg bg-black text-white font-medium
-               hover:bg-gray-800 transition"
-  >
-    View Projects
-  </Link>
-
-  {/* Secondary CTA */}
-  <Link
-    to="/contact"
-    className="px-4 py-2 rounded-lg border border-gray-300
-               hover:bg-gray-100 transition"
-  >
-    Contact Me
-  </Link>
-
-  {/* Resume CTA (subtle but premium) */}
-  <a
-    href="/Resume.pdf"
-    download
-    className="px-4 py-3 text-sm flex items-center gap-2 
-               text-gray-600 hover:text-black transition border-black border-b"
-  >
-    ⬇ Download Resume
-  </a>
-
-</div>
-
+    <div className="space-y-5">
+      <section className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="space-y-4">
+          <div className="space-y-2.5">
+            <p className="text-[0.65rem] uppercase tracking-[0.45em] text-slate-500">
+              Available for full-stack opportunities
+            </p>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--border-soft)] bg-white px-3 py-1 text-[0.7rem] font-semibold text-slate-700">
+              <span className="h-2 w-2 rounded-full bg-[var(--accent)]" />
+              <span>Expense Tracker • ongoing build</span>
             </div>
+            <h1 className="text-[1.75rem] font-semibold leading-tight text-slate-900 sm:text-[2.1rem]">
+              Designing reliable web experiences with calm, readable interfaces.
+            </h1>
+            <p className="text-[0.88rem] text-slate-600 sm:text-[0.95rem]">
+              I care about clarity, performance, and making every UI transition feel natural.
+              My work bridges product thinking and engineering discipline so teams can ship faster.
+            </p>
+          </div>
 
-            {/* Right: Image */}
-            <div className="flex justify-center">
-              <div className="w-48 h-48 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 overflow-hidden">
-                <img
-                  src="/shivam.jpeg"
-                  alt="Shivam Mittal"
-                  className="w-full h-full object-cover rounded-full"
-                />
+          <div className="rounded-xl border border-[var(--border-soft)] bg-[var(--bg-card)] p-3.5">
+            <ul className="space-y-2 text-[0.85rem] text-slate-700">
+              {heroPoints.map((point) => (
+                <li key={point} className="flex items-start gap-3">
+                  <span className="mt-1 h-2 w-2 rounded-full bg-[var(--accent)]" />
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <Link
+              to="/projects"
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-4 py-2 text-xs font-semibold text-gray-900"
+            >
+              View Projects
+              <ArrowUpRight size={16} />
+            </Link>
+
+            <a
+              href="/Resume.pdf"
+              download
+              className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-[0.75rem] text-slate-600 underline-offset-4 hover:text-slate-900"
+            >
+              <Download size={16} /> Resume
+            </a>
+          </div>
+
+          <div className="grid gap-2.5 sm:grid-cols-3">
+            {stats.map((stat) => (
+              <div
+                key={stat.label}
+                className="rounded-xl border border-[var(--border-soft)] bg-[var(--bg-card)] px-3 py-2 text-center"
+              >
+                <p className="text-xl font-semibold text-slate-900">{stat.value}</p>
+                <p className="text-[0.62rem] uppercase tracking-[0.4em] text-slate-500">
+                  {stat.label}
+                </p>
               </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-card)] p-4">
+          <div className="flex items-center justify-between text-[0.65rem] text-slate-500">
+            <span>Now building</span>
+            <span className="text-slate-700">Expense Tracker</span>
+          </div>
+          <div className="mt-4 flex justify-center">
+            <div className="h-44 w-44 overflow-hidden rounded-xl border border-[var(--border-soft)] bg-slate-100">
+              <img
+                src="/shivam.jpeg"
+                alt="Shivam Mittal"
+                className="h-full w-full object-cover"
+              />
             </div>
-
           </div>
-        </section>
-
-
-       
-
-
-
-        {/* INTERESTS SECTION */}
-        <section className="bg-gray-100">
-          <div className="max-w-5xl mx-auto px-6 py-4">
-            <Interests />
+          <div className="mt-4 space-y-2">
+            <p className="text-base font-semibold text-slate-900">Shivam Mittal</p>
+            <p className="text-xs text-slate-600">
+              Full-stack developer turning product briefs into performant experiences.
+            </p>
+            <div className="flex flex-wrap gap-1.5">
+              {standoutChips.map((chip) => (
+                <span
+                  key={chip}
+                  className="rounded-full border border-[var(--border-soft)] px-2 py-0.5 text-[9.5px] text-slate-600"
+                >
+                  {chip}
+                </span>
+              ))}
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <TechnicalSkills />
-      </>
+      <Interests />
+      <TechnicalSkills />
     </div>
-  );
-};
+  )
+}
 
-export default Hero;
+export default Hero

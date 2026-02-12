@@ -1,74 +1,87 @@
-import React from "react";
-import { Mail, Github, Linkedin, Globe } from "lucide-react";
+import { Mail, Github, Linkedin, Globe, Code2, Send } from "lucide-react"
 
-const Contact: React.FC = () => {
+const contactMethods = [
+  {
+    label: "Email",
+    value: "shivamofficialsm@gmail.com",
+    href: "mailto:shivamofficialsm@gmail.com",
+    icon: Mail,
+    hint: "Fastest response",
+  },
+  {
+    label: "GitHub",
+    value: "github.com/shivamMittal088",
+    href: "https://github.com/shivamMittal088",
+    icon: Github,
+    hint: "Code & experiments",
+  },
+  {
+    label: "LinkedIn",
+    value: "linkedin.com/in/shivamMittal088",
+    href: "https://linkedin.com/in/shivamMittal088",
+    icon: Linkedin,
+    hint: "Let’s connect",
+  },
+  {
+    label: "Website",
+    value: "theshivam.dev",
+    href: "https://www.theshivam.dev/",
+    icon: Globe,
+    hint: "More experiments",
+  },
+  {
+    label: "LeetCode",
+    value: "leetcode.com/u/Shivam088/",
+    href: "https://leetcode.com/u/Shivam088/",
+    icon: Code2,
+    hint: "Problem solving",
+  },
+]
+
+const Contact = () => {
   return (
-    <section className="w-[70%] mx-auto py-4">
-      <h2 className="text-2xl font-bold mb-6 text-center">Contact</h2>
+    <section className="space-y-6">
+      <header className="space-y-2.5 text-center">
+        <p className="text-[0.65rem] uppercase tracking-[0.4em] text-slate-500">Contact</p>
+        <h1 className="text-3xl font-semibold text-slate-900">Let’s collaborate on something ambitious</h1>
+        <p className="text-sm text-slate-600">
+          Whether you have a role, a prototype, or just an idea you want to stress-test, feel free to reach out.
+        </p>
+      </header>
 
-      <p className="text-center text-gray-600 mb-4 text-sm">
-        Feel free to reach out for opportunities, collaboration, or any
-        professional inquiry.
-      </p>
+      <div className="grid gap-4 md:grid-cols-2">
+        {contactMethods.map((method) => {
+          const Icon = method.icon
+          return (
+            <a
+              key={method.label}
+              href={method.href}
+              target={method.href.startsWith("http") ? "_blank" : undefined}
+              className="group flex items-center gap-3 rounded-xl border border-[var(--border-soft)] bg-[var(--bg-card)] p-3.5"
+            >
+              <div className="rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-2.5 text-slate-700">
+                <Icon size={18} />
+              </div>
+              <div className="flex-1">
+                <p className="text-[0.6rem] uppercase tracking-[0.35em] text-slate-500">{method.hint}</p>
+                <p className="text-base font-semibold text-slate-900">{method.label}</p>
+                <p className="text-xs text-slate-600">{method.value}</p>
+              </div>
+              <Send className="text-slate-400" size={16} />
+            </a>
+          )
+        })}
+      </div>
 
-      <div className="max-w-xl mx-auto space-y-5">
-        {/* Email */}
-        <a
-          href="mailto:shivamofficialsm@gmail.com"
-          className="flex items-center gap-4 p-4 border rounded-md hover:bg-gray-50 transition"
-        >
-          <Mail size={20} />
-          <div>
-            <p className="font-medium">Email</p>
-            <p className="text-sm text-gray-600">shivamofficialsm@gmail.com</p>
-          </div>
-        </a>
-
-        {/* GitHub */}
-        <a
-          href="https://github.com/shivamMittal088"
-          target="_blank"
-          className="flex items-center gap-4 p-4 border rounded-md hover:bg-gray-50 transition"
-        >
-          <Github size={20} />
-          <div>
-            <p className="font-medium">GitHub</p>
-            <p className="text-sm text-gray-600">
-              github.com/shivamMittal088
-            </p>
-          </div>
-        </a>
-
-        {/* LinkedIn */}
-        <a
-          href="https://linkedin.com/in/shivamMittal088"
-          target="_blank"
-          className="flex items-center gap-4 p-4 border rounded-md hover:bg-gray-50 transition"
-        >
-          <Linkedin size={20} />
-          <div>
-            <p className="font-medium">LinkedIn</p>
-            <p className="text-sm text-gray-600">
-              linkedin.com/in/shivamMittal088
-            </p>
-          </div>
-        </a>
-
-        {/* Website */}
-        <a
-          href="https://www.theshivam.dev/"
-          target="_blank"
-          className="flex items-center gap-4 p-4 border rounded-md hover:bg-gray-50 transition"
-        >
-          <Globe size={20} />
-          <div>
-            <p className="font-medium">Website</p>
-            <p className="text-sm text-gray-600">theshivam.dev</p>
-          </div>
-        </a>
+      <div className="rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-card)] p-5 text-center">
+        <p className="text-[0.65rem] uppercase tracking-[0.4em] text-slate-500">Availability</p>
+        <h2 className="mt-2.5 text-xl font-semibold text-slate-900">Open to full-time or contract opportunities</h2>
+        <p className="mt-2 text-xs text-slate-600">
+          Prefer hybrid or remote product teams working on thoughtful web experiences.
+        </p>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Contact;
+export default Contact

@@ -1,59 +1,60 @@
-import React from "react";
-
 type InterestItem = {
-  title: string;
-  description: string;
-};
+  title: string
+  description: string
+}
 
 const interests: InterestItem[] = [
   {
     title: "Building Products",
     description:
-      "I enjoy creating useful web applications that solve real problems, whether it’s tracking expenses, managing tasks, or helping people collaborate better.",
+      "I enjoy crafting purposeful web apps—expense tools, collaboration hubs, or anything that removes friction for teams.",
   },
   {
     title: "Backend Engineering",
     description:
-      "I like working on APIs, databases, and system design. Writing clean, scalable backend code is something I find deeply satisfying.",
+      "APIs, databases, auth flows, and system diagrams are my happy place. I like when reliability is measurable.",
   },
   {
     title: "Learning & Improving",
     description:
-      "I continuously improve my skills by reading documentation, building side projects, and experimenting with new technologies.",
+      "Reading docs, running experiments, and dissecting architecture keeps my curiosity wired-in.",
   },
   {
     title: "Problem Solving",
     description:
-      "I enjoy breaking down complex problems into simple steps and finding efficient, practical solutions through code.",
+      "I break ambiguous challenges into approachable sprints and validate with instrumentation.",
   },
-];
+]
 
-const Interests: React.FC = () => {
+const Interests = () => {
   return (
-    <section className="bg-gray-50">
-      <div className="max-w-5xl mx-auto px-6 py-4">
-        <h2 className="text-xl font-semibold mb-2 text-gray-900">
-          Interests
-        </h2>
-
-        <div className="grid md:grid-cols-2 gap-4">
-          {interests.map((interest) => (
-            <div
-              key={interest.title}
-              className="bg-white p-6 rounded-lg border shadow-sm"
-            >
-              <h3 className="font-medium text-gray-900 mb-2">
-                {interest.title}
-              </h3>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                {interest.description}
-              </p>
-            </div>
-          ))}
+    <section className="rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-card)] p-5">
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p className="text-[0.65rem] uppercase tracking-[0.4em] text-slate-500">Beyond code</p>
+          <h2 className="text-xl font-semibold text-slate-900">Interests that fuel my work</h2>
         </div>
+        <span className="rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-[11px] uppercase tracking-[0.35em] text-slate-500">
+          always curious
+        </span>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        {interests.map((interest, index) => (
+          <div
+            key={interest.title}
+            className="rounded-xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-4"
+          >
+            <p className="text-xs uppercase tracking-[0.4em] text-slate-500">
+              0{index + 1}
+            </p>
+            <h3 className="text-lg font-semibold text-slate-900">{interest.title}</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">{interest.description}</p>
+          </div>
+        ))}
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Interests;
+export default Interests

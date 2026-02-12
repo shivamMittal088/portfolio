@@ -1,55 +1,71 @@
-import React from "react";
-
 type SkillItem = {
-  title: string;
-  items: string;
-};
+  title: string
+  items: string[]
+  focus: string
+}
 
 const skills: SkillItem[] = [
   {
     title: "Programming Languages",
-    items: "JavaScript, TypeScript, C++, Python, Object Oriented Programming",
+    focus: "Daily drivers",
+    items: ["JavaScript", "TypeScript", "C++", "Python", "OOP"],
   },
   {
     title: "Web Development",
-    items: "React, Tailwind CSS, Node.js, Express, REST APIs, Redux",
+    focus: "Frontend + backend",
+    items: ["React", "Tailwind", "Node.js", "Express", "REST", "Redux"],
   },
   {
     title: "Databases",
-    items: "MongoDB, MySQL",
+    focus: "Persistence",
+    items: ["MongoDB", "MySQL"],
   },
   {
     title: "Tools & Platforms",
-    items: "Git, GitHub, Postman, VS Code",
+    focus: "Productivity",
+    items: ["Git", "GitHub", "Postman", "VS Code"],
   },
   {
     title: "Concepts",
-    items:
-      "Data Structures & Algorithms, Authentication, API Design, MVC Architecture",
+    focus: "Architecture",
+    items: ["DSA", "Authentication", "API Design"],
   },
-];
+]
 
-const TechnicalSkills: React.FC = () => {
+const TechnicalSkills = () => {
   return (
-    <section className="w-full py-4 pb-8 bg-white">
-      <div className="max-w-3xl mx-auto px-6">
-        <h2 className="text-2xl font-bold mb-4 text-center">
-          Technical Skills
-        </h2>
+    <section className="rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-card)] p-4">
+      <div className="mb-4 text-center">
+        <p className="text-[0.6rem] uppercase tracking-[0.35em] text-slate-500">Stack</p>
+        <h2 className="text-xl font-semibold text-slate-900">Technical Skills</h2>
+        <p className="mt-1 text-[0.72rem] text-slate-600">
+          Tools and concepts I rely on while turning product requirements into working software.
+        </p>
+      </div>
 
-        <ul className="space-y-4 text-[15px] text-gray-800 list-disc list-inside leading-relaxed">
-          {skills.map((skill) => (
-            <li key={skill.title}>
-              <span className="font-semibold">{skill.title}</span>
-              <span className="block ml-6 text-gray-600">
-                {skill.items}
-              </span>
-            </li>
-          ))}
-        </ul>
+      <div className="grid gap-3 sm:grid-cols-2">
+        {skills.map((skill) => (
+          <div
+            key={skill.title}
+            className="rounded-xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-3"
+          >
+            <p className="text-[0.6rem] uppercase tracking-[0.32em] text-slate-500">{skill.focus}</p>
+            <h3 className="mt-1 text-base font-semibold text-slate-900">{skill.title}</h3>
+            <div className="mt-2.5 flex flex-wrap gap-1.5">
+              {skill.items.map((item) => (
+                <span
+                  key={item}
+                  className="rounded-full border border-[var(--border-soft)] px-2 py-0.5 text-[0.68rem] text-slate-600"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default TechnicalSkills;
+export default TechnicalSkills

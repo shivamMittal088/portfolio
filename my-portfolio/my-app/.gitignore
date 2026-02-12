@@ -7,10 +7,25 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-./node_modules
+node_modules/
 dist
 dist-ssr
 *.local
+build
+coverage
+tmp
+temp
+.cache
+.vite
+.vite-inspect
+storybook-static
+.next
+.nuxt
+.svelte-kit
+.turbo
+.vercel
+.netlify
+.sass-cache
 
 # Editor directories and files
 .vscode/*
