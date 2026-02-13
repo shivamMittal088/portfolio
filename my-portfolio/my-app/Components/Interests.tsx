@@ -28,30 +28,31 @@ const interests: InterestItem[] = [
 
 const Interests = () => {
   return (
-    <section className="rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-card)] p-5">
-      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+    <section className="section-shell space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-[0.65rem] uppercase tracking-[0.4em] text-slate-500">Beyond code</p>
+          <p className="section-label">Beyond code</p>
           <h2 className="text-xl font-semibold text-slate-900">Interests that fuel my work</h2>
         </div>
-        <span className="rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-[11px] uppercase tracking-[0.35em] text-slate-500">
-          always curious
-        </span>
+        <span className="section-chip">always curious</span>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        {interests.map((interest, index) => (
-          <div
-            key={interest.title}
-            className="rounded-xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-4"
-          >
-            <p className="text-xs uppercase tracking-[0.4em] text-slate-500">
-              0{index + 1}
-            </p>
-            <h3 className="text-lg font-semibold text-slate-900">{interest.title}</h3>
-            <p className="text-xs text-slate-600 leading-relaxed">{interest.description}</p>
-          </div>
-        ))}
+      <div className="rounded-3xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-3">
+        <ul className="grid gap-3 sm:grid-cols-2">
+          {interests.map((interest, index) => (
+            <li
+              key={interest.title}
+              className="rounded-xl border border-[var(--border-soft)] bg-white/85 px-3 py-2.5 shadow-[0_4px_12px_rgba(15,23,42,0.04)]"
+            >
+              <div className="flex items-center justify-between text-[0.6rem] uppercase tracking-[0.3em] text-slate-500">
+                <span>0{index + 1}</span>
+                <span>focus</span>
+              </div>
+              <p className="mt-1 text-base font-semibold text-slate-900">{interest.title}</p>
+              <p className="text-[0.85rem] text-slate-600">{interest.description}</p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   )

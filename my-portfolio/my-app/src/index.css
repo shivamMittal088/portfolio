@@ -4,7 +4,7 @@
   --bg-page: #f4f6fb;
   --bg-surface: #ffffff;
   --bg-card: #f9fbff;
-  --border-soft: rgba(15, 23, 42, 0.08);
+  --border-soft: rgba(15, 23, 42, 0.18);
   --text-primary: #0f172a;
   --text-muted: #64748b;
   --accent: #2563eb;
@@ -29,6 +29,70 @@ body {
 ::selection {
   background: rgba(37, 99, 235, 0.18);
   color: #0f172a;
+}
+
+.section-shell {
+  border: 1px solid var(--border-soft);
+  border-radius: 28px;
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  background: linear-gradient(135deg, var(--bg-surface), var(--bg-card));
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.08);
+}
+
+.section-shell + .section-shell,
+.section-shell + .section-stack,
+.section-stack + .section-shell {
+  margin-top: 1.25rem;
+}
+
+.section-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.section-label {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  color: var(--text-muted);
+}
+
+.section-title {
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.section-subtitle {
+  font-size: 0.9rem;
+  color: #475569;
+  max-width: 60ch;
+}
+
+.section-divider {
+  height: 1px;
+  width: 100%;
+  background: var(--border-soft);
+  margin: 1.5rem 0;
+}
+
+.section-chip {
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.section-surface {
+  border: 1px solid var(--border-soft);
+  border-radius: 22px;
+  background: var(--bg-surface);
+  padding: 1.25rem;
 }
 
 .highlight-font {

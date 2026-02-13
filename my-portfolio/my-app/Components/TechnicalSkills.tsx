@@ -34,35 +34,30 @@ const skills: SkillItem[] = [
 
 const TechnicalSkills = () => {
   return (
-    <section className="rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-card)] p-4">
-      <div className="mb-4 text-center">
-        <p className="text-[0.6rem] uppercase tracking-[0.35em] text-slate-500">Stack</p>
-        <h2 className="text-xl font-semibold text-slate-900">Technical Skills</h2>
-        <p className="mt-1 text-[0.72rem] text-slate-600">
-          Tools and concepts I rely on while turning product requirements into working software.
-        </p>
+    <section className="section-shell space-y-4">
+      <div className="flex flex-wrap items-end justify-between gap-2">
+        <div>
+          <p className="section-label">Stack</p>
+          <h2 className="text-xl font-semibold text-slate-900">Technical Skills</h2>
+        </div>
+        <p className="text-[0.8rem] text-slate-500">Fast scan of the tools I rely on.</p>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2">
-        {skills.map((skill) => (
-          <div
-            key={skill.title}
-            className="rounded-xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-3"
-          >
-            <p className="text-[0.6rem] uppercase tracking-[0.32em] text-slate-500">{skill.focus}</p>
-            <h3 className="mt-1 text-base font-semibold text-slate-900">{skill.title}</h3>
-            <div className="mt-2.5 flex flex-wrap gap-1.5">
-              {skill.items.map((item) => (
-                <span
-                  key={item}
-                  className="rounded-full border border-[var(--border-soft)] px-2 py-0.5 text-[0.68rem] text-slate-600"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-        ))}
+      <div className="rounded-3xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-3">
+        <ul className="grid gap-3 sm:grid-cols-2">
+          {skills.map((skill) => (
+            <li
+              key={skill.title}
+              className="rounded-xl border border-[var(--border-soft)] bg-white/80 px-3 py-2.5 shadow-[0_4px_12px_rgba(15,23,42,0.04)]"
+            >
+              <p className="text-sm font-semibold text-slate-900">{skill.title}</p>
+              <p className="text-[0.6rem] uppercase tracking-[0.3em] text-slate-500">{skill.focus}</p>
+              <p className="mt-1 text-[0.82rem] leading-relaxed text-slate-600">
+                {skill.items.join(" · ")}
+              </p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   )

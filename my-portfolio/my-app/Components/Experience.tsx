@@ -63,53 +63,58 @@ const experiences: ExperienceItem[] = [
 
 const Experience = () => {
   return (
-    <section className="space-y-8">
-      <header className="space-y-3">
-        <p className="text-[0.65rem] uppercase tracking-[0.4em] text-slate-500">Experience</p>
-        <h1 className="text-3xl font-semibold text-slate-900">Shipping impactful work through focused sprints</h1>
-        <p className="text-sm text-slate-600">
+    <div className="space-y-6 sm:space-y-8">
+      <section className="section-shell space-y-1">
+        <div className="flex items-center justify-between text-[0.6rem] uppercase tracking-[0.35em] text-slate-500">
+          <span>Experience</span>
+          <span>Focused sprints</span>
+        </div>
+        <h2 className="text-lg font-semibold text-slate-900">Shipping impactful work through focused sprints</h2>
+        <p className="text-[0.8rem] text-slate-600">
           I thrive in zero-to-one stages where clarity, velocity, and thoughtful engineering decisions matter most.
         </p>
-      </header>
+      </section>
 
-      <div className="space-y-6">
-        {experiences.map((experience) => (
-          <article
-            key={experience.company}
-            className="rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-card)] p-5"
-          >
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <p className="text-[0.65rem] uppercase tracking-[0.35em] text-slate-500">{experience.period}</p>
-                <h2 className="text-xl font-semibold text-slate-900">{experience.company}</h2>
+      <section className="section-shell">
+        <div className="rounded-3xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-3">
+          <ul className="space-y-3">
+            {experiences.map((experience) => (
+              <li
+                key={experience.company}
+                className="rounded-xl border border-[var(--border-soft)] bg-white/85 px-4 py-3 shadow-[0_4px_12px_rgba(15,23,42,0.04)]"
+              >
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-[0.62rem] uppercase tracking-[0.32em] text-slate-500">{experience.period}</p>
+                  <h2 className="text-lg font-semibold text-slate-900">{experience.company}</h2>
+                </div>
+                <span className="text-[0.6rem] uppercase tracking-[0.3em] text-slate-500">{experience.role}</span>
               </div>
-              <span className="rounded-full border border-[var(--border-soft)] px-3.5 py-1.5 text-[0.65rem] uppercase tracking-[0.35em] text-slate-500">
-                {experience.role}
-              </span>
-            </div>
 
-            <p className="mt-3.5 text-xs text-slate-600">{experience.summary}</p>
+              <p className="mt-2 text-[0.88rem] text-slate-600">{experience.summary}</p>
 
-            <ul className="mt-3 space-y-1.5 text-xs text-slate-700">
-              {experience.achievements.map((item) => (
-                <li key={item} className="flex items-start gap-3">
-                  <span className="mt-1 h-2 w-2 rounded-full bg-[var(--accent)]" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+              <ul className="mt-2 space-y-1.5 text-[0.85rem] text-slate-700">
+                {experience.achievements.map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
 
-            <div className="mt-5 flex flex-wrap gap-1.5 text-[0.65rem] text-slate-600">
-              {experience.stack.map((tech) => (
-                <span key={tech} className="rounded-full border border-[var(--border-soft)] px-3 py-1">
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
+                <div className="mt-3 flex flex-wrap gap-1.5 text-[0.7rem] text-slate-600">
+                  {experience.stack.map((tech) => (
+                    <span key={tech} className="rounded-full border border-[var(--border-soft)] px-2.5 py-0.5">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    </div>
   )
 }
 

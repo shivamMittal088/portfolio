@@ -9,7 +9,7 @@ const Layout = () => {
         <NavBar />
 
         {/* Main content area */}
-        <main className="flex-1 pb-8 pt-5">
+        <main className="flex-1 space-y-6 pb-10 pt-6 sm:space-y-8">
           <Outlet />
         </main>
 
