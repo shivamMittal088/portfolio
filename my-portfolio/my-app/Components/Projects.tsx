@@ -129,10 +129,10 @@ const Projects = () => {
         {projects.map((project, index) => (
           <article
             key={project.title}
-            className="rounded-3xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-4 shadow-[0_12px_30px_rgba(15,23,42,0.06)]"
+            className="rounded-3xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-4 sm:p-5 shadow-[0_12px_30px_rgba(15,23,42,0.06)] space-y-4"
           >
-            <div className="flex flex-wrap items-start justify-between gap-3">
-              <div>
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
+              <div className="min-w-0">
                 <p className="flex items-center gap-2 text-[0.6rem] uppercase tracking-[0.35em] text-slate-500">
                   <Calendar size={16} />
                   {project.period ?? "2025"}
@@ -142,10 +142,10 @@ const Projects = () => {
                   {project.description}
                 </p>
               </div>
-              <span className="section-chip">0{index + 1}</span>
+              <span className="section-chip w-fit sm:self-auto">0{index + 1}</span>
             </div>
 
-            <div className="mt-4 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+            <div className="mt-3 flex flex-col gap-4 lg:grid lg:grid-cols-[1.1fr_0.9fr]">
               <section className="rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-card)] p-3.5">
                 <header className="flex items-center justify-between text-[0.58rem] uppercase tracking-[0.35em] text-slate-500">
                   <span>Highlights</span>
@@ -176,25 +176,25 @@ const Projects = () => {
                   <img
                     src={project.images[0]}
                     alt={project.title}
-                    className="h-56 w-full object-cover"
+                    className="h-48 w-full object-cover sm:h-56"
                     loading="lazy"
                   />
                   <button
                     type="button"
                     onClick={() => openGallery(project, 0)}
-                    className="absolute right-2 top-2 inline-flex items-center gap-1.5 rounded-full border border-[var(--border-soft)] bg-white/95 px-2.5 py-0.5 text-[0.6rem] font-semibold text-slate-900"
+                    className="absolute right-2 top-2 inline-flex items-center gap-1.5 rounded-full border border-[var(--border-soft)] bg-white/90 px-2 py-0.5 text-[0.55rem] font-semibold text-slate-900 sm:px-2.5 sm:text-[0.6rem]"
                   >
                     <ImageIcon size={16} /> View gallery
                   </button>
                 </div>
 
-                <div className="flex gap-2 overflow-x-auto pb-1">
+                <div className="grid grid-cols-3 gap-2 sm:flex sm:overflow-x-auto sm:pb-1">
                   {project.images.map((image, imgIndex) => (
                     <button
                       key={`${project.title}-thumb-${imgIndex}`}
                       type="button"
                       onClick={() => openGallery(project, imgIndex)}
-                      className="h-14 w-20 flex-shrink-0 overflow-hidden rounded-xl border border-[var(--border-soft)]"
+                      className="h-16 w-full overflow-hidden rounded-xl border border-[var(--border-soft)] sm:h-14 sm:w-20 sm:flex-shrink-0"
                     >
                       <img src={image} alt={`${project.title} screenshot ${imgIndex + 1}`} className="h-full w-full object-cover" />
                     </button>
