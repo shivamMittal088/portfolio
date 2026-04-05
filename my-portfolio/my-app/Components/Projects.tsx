@@ -18,10 +18,20 @@ type ScreenshotSection = {
   imageIndexes: number[]
 }
 
+type CaseStudy = {
+  problem: string
+  role: string
+  techChoices: string[]
+  challenges: string[]
+  tradeoffs: string[]
+  outcome: string[]
+}
+
 type Project = {
   title: string
   period?: string
   description: string
+  caseStudy: CaseStudy
   highlights: string[]
   techStack: string[]
   images: string[]
@@ -32,7 +42,16 @@ type Project = {
   liveLink?: string
 }
 
-const projects: Project[] = [
+type MiniProject = {
+  title: string
+  period?: string
+  summary: string
+  learnings: string[]
+  techStack: string[]
+  github: string
+}
+
+const featuredProjects: Project[] = [
   {
     title: "Expense Tracker",
     period: "Jan 2026 – Feb 2026",
@@ -58,6 +77,32 @@ const projects: Project[] = [
     ],
     description:
       "Full-stack expense intelligence platform with hardened authentication, logging, and analytics-first dashboards.",
+    caseStudy: {
+      problem:
+        "Users needed a single place to track spending, inspect monthly patterns, and export structured reports without manual spreadsheet work.",
+      role:
+        "Owned full-stack delivery across product scoping, backend API design, frontend implementation, and deployment hardening.",
+      techChoices: [
+        "MERN + TypeScript for faster delivery with type-safe contracts.",
+        "Cloudinary + Multer for secure, scalable media uploads.",
+        "Axiom logging to monitor production API behavior in real time.",
+        "ExcelJS for dynamic report exports with custom date windows.",
+      ],
+      challenges: [
+        "Keeping feeds and profile interactions performant with growing data.",
+        "Avoiding redundant calls during rapid UI interactions.",
+        "Maintaining observability while shipping quickly.",
+      ],
+      tradeoffs: [
+        "Used session-based auth to simplify browser security and lower token handling complexity.",
+        "Shipped analytics depth in phases to prioritize reliability and clean data flow first.",
+      ],
+      outcome: [
+        "Reduced front-end bundle pressure through lazy loading and modal prefetching.",
+        "Delivered downloadable monthly and custom-range financial reports.",
+        "Improved production debugging speed with centralized request and error logging.",
+      ],
+    },
     highlights: [
       "Implemented session-based authentication with centralized logging for API monitoring and error tracking.",
       "Built scalable followers APIs using cursor-based pagination with infinite scroll and private account handling.",
@@ -91,6 +136,31 @@ const projects: Project[] = [
     ],
     description:
       "Developer matchmaking platform with curated feeds, profile discovery, and real-time request management.",
+    caseStudy: {
+      problem:
+        "Developers needed a focused way to discover relevant peers, connect intentionally, and manage requests without noisy social graph behavior.",
+      role:
+        "Built both frontend and backend modules including auth, feed ranking logic, connection workflows, and deployment infrastructure.",
+      techChoices: [
+        "JWT + HTTP-only cookies for secure session handling.",
+        "MongoDB for flexible profile and request models.",
+        "AWS EC2 + NGINX + PM2 for stable production runtime.",
+      ],
+      challenges: [
+        "Preventing duplicate or invalid connection interactions.",
+        "Designing modular controllers without tight coupling between features.",
+        "Keeping deployment simple but resilient for continuous updates.",
+      ],
+      tradeoffs: [
+        "Prioritized robust core request/connection workflows before advanced recommendation tuning.",
+        "Kept architecture monorepo-friendly to iterate quickly over strict service decomposition.",
+      ],
+      outcome: [
+        "Shipped a production-ready matchmaking flow with reliable request state transitions.",
+        "Improved security posture with input sanitization and bcrypt hardening.",
+        "Achieved dependable uptime on EC2 with reverse proxy and process management setup.",
+      ],
+    },
     highlights: [
       "Designed modular controllers for feed, auth, profile, connection requests, and mutual matches.",
       "Implemented JWT auth with HTTP-only cookies, input sanitization, and bcrypt hardening.",
@@ -112,6 +182,31 @@ const projects: Project[] = [
     ],
     description:
       "AI-assisted streaming companion that mixes TMDB data with OpenAI prompts for tailored watchlists.",
+    caseStudy: {
+      problem:
+        "Traditional browsing made it hard to discover content quickly, especially across languages and changing preferences.",
+      role:
+        "Led frontend architecture and API integrations to combine conversational recommendations with fast browsing UX.",
+      techChoices: [
+        "Redux Toolkit for predictable state handling and scalable slices.",
+        "Firebase Auth for low-friction secure sign-in flows.",
+        "TMDB + OpenAI integration for data-rich and context-aware recommendations.",
+      ],
+      challenges: [
+        "Balancing recommendation latency with smooth UI interactions.",
+        "Handling offline/loading states while preserving user trust.",
+        "Keeping state complexity manageable as feature count grew.",
+      ],
+      tradeoffs: [
+        "Focused first on recommendation quality and UX reliability before social features.",
+        "Used curated prompt flows over open-ended chat to keep responses consistent.",
+      ],
+      outcome: [
+        "Delivered multilingual recommendation flows from natural language prompts.",
+        "Improved browsing smoothness with shimmer states and memoized selectors.",
+        "Maintained consistent sessions by syncing preferences with auth state.",
+      ],
+    },
     highlights: [
       "Built shimmer states, memoized selectors, and Redux Toolkit slices for fluid browsing.",
       "Connected TMDB and ChatGPT APIs to offer multilingual, conversational suggestions.",
@@ -120,6 +215,37 @@ const projects: Project[] = [
     techStack: ["React", "Firebase", "Redux", "OpenAI", "TMDB"],
     frontendGithub: "https://github.com/shivamMittal088/netflix-gpt",
     liveLink: "https://netflixgpt-9c971.web.app/",
+  },
+]
+
+const miniProjects: MiniProject[] = [
+  {
+    title: "WebSockets Chat App",
+    period: "Mar 2026",
+    summary:
+      "Small real-time chat app to understand live communication patterns beyond HTTP request-response.",
+    learnings: [
+      "Online/offline user detection flow",
+      "Bidirectional communication using WebSockets",
+      "Typing indicator behavior with low-latency updates",
+      "HTTP handshake and TCP-backed WebSocket workflow",
+    ],
+    techStack: ["React", "Node.js", "WebSockets", "Express", "HTTP/TCP"],
+    github: "https://github.com/shivamMittal088/WebSockets-ChatApp",
+  },
+  {
+    title: "Redis Practice Mini Project",
+    period: "Mar 2026",
+    summary:
+      "Mini backend practice build focused on performance and scaling fundamentals in distributed systems.",
+    learnings: [
+      "Redis caching to reduce repeated work",
+      "Session-based authentication with server-managed state",
+      "Rate limiting for traffic protection and API stability",
+      "Practical understanding of scaling-oriented backend patterns",
+    ],
+    techStack: ["Node.js", "Express", "Redis", "Session Auth", "Rate Limiting"],
+    github: "https://github.com/shivamMittal088/redii-prac",
   },
 ]
 
@@ -168,7 +294,7 @@ const Projects = () => {
       </section>
 
       <section className="section-shell space-y-4">
-        {projects.map((project) => (
+        {featuredProjects.map((project) => (
           <article
             key={project.title}
             className="rounded-3xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-4 sm:p-5 shadow-[0_12px_30px_rgba(15,23,42,0.06)] space-y-4"
@@ -194,11 +320,11 @@ const Projects = () => {
             <div className="mt-3 flex flex-col gap-4 lg:grid lg:grid-cols-[1.1fr_0.9fr]">
               <section className="rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-card)] p-3.5">
                 <header className="flex items-center justify-between text-[0.58rem] uppercase tracking-[0.35em] text-slate-500">
-                  <span>Highlights</span>
-                  <span>{project.highlights.length} notes</span>
+                  <span>Key Highlights</span>
+                  <span>{Math.min(project.highlights.length, 3)} of {project.highlights.length}</span>
                 </header>
                 <ul className="mt-3 space-y-2 text-[0.84rem] text-slate-700">
-                  {project.highlights.map((highlight) => (
+                  {project.highlights.slice(0, 3).map((highlight) => (
                     <li key={highlight} className="flex items-start gap-3">
                       <span className="mt-1 h-2 w-2 rounded-full bg-[var(--accent)]" />
                       <span>{highlight}</span>
@@ -220,12 +346,12 @@ const Projects = () => {
               <section className="space-y-3">
                 <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-3">
                   <div className="rounded-xl border border-zinc-800 bg-black p-2">
-                    <div className="flex h-64 items-center justify-center sm:h-72">
+                    <div className="flex h-44 items-center justify-center sm:h-52">
                       <img
                         src={project.images[0]}
                         alt={`${project.title} primary screenshot`}
                         className={`h-full rounded-xl border-2 border-slate-900 bg-black p-1 object-contain ${
-                          project.previewMode === "portrait" ? "w-auto max-w-[11rem] sm:max-w-[12rem]" : "w-full max-w-full"
+                          project.previewMode === "portrait" ? "w-auto max-w-[8.5rem] sm:max-w-[9.5rem]" : "w-full max-w-full"
                         }`}
                         loading="lazy"
                       />
@@ -270,6 +396,37 @@ const Projects = () => {
               </section>
             </div>
 
+            <section className="rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-card)] p-3.5 sm:p-4">
+              <div className="flex items-center justify-between">
+                <p className="text-[0.58rem] uppercase tracking-[0.32em] text-slate-500">Case Study Snapshot</p>
+                <p className="text-[0.58rem] uppercase tracking-[0.25em] text-slate-500">Essential only</p>
+              </div>
+
+              <div className="mt-3 grid gap-2.5 md:grid-cols-3">
+                <article className="rounded-xl border border-[var(--border-soft)] bg-white p-3">
+                  <p className="text-[0.58rem] uppercase tracking-[0.25em] text-slate-500">Problem</p>
+                  <p className="mt-1 text-[0.82rem] text-slate-700">{project.caseStudy.problem}</p>
+                </article>
+
+                <article className="rounded-xl border border-[var(--border-soft)] bg-white p-3">
+                  <p className="text-[0.58rem] uppercase tracking-[0.25em] text-slate-500">Role</p>
+                  <p className="mt-1 text-[0.82rem] text-slate-700">{project.caseStudy.role}</p>
+                </article>
+
+                <article className="rounded-xl border border-[var(--border-soft)] bg-white p-3">
+                  <p className="text-[0.58rem] uppercase tracking-[0.25em] text-slate-500">Outcome</p>
+                  <ul className="mt-1.5 space-y-1.5 text-[0.82rem] text-slate-700">
+                    {project.caseStudy.outcome.slice(0, 2).map((result) => (
+                      <li key={result} className="flex items-start gap-2">
+                        <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                        <span>{result}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              </div>
+            </section>
+
             <div className="mt-3 flex flex-wrap gap-2 text-[0.68rem]">
               {project.frontendGithub && (
                 <a
@@ -304,6 +461,67 @@ const Projects = () => {
             </div>
           </article>
         ))}
+      </section>
+
+      <section className="section-shell space-y-4">
+        <div className="space-y-2">
+          <p className="section-label">Mini Projects</p>
+          <h2 className="text-xl font-semibold text-slate-900">Focused Learning Builds</h2>
+          <p className="section-subtitle text-sm">
+            Small projects I built to deeply understand real-time communication, caching, and scaling concepts.
+          </p>
+        </div>
+
+        <div className="grid gap-3 md:grid-cols-2">
+          {miniProjects.map((project) => (
+            <article
+              key={project.title}
+              className="rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-4 space-y-3"
+            >
+              <div className="flex items-start justify-between gap-2">
+                <h3 className="text-base font-semibold text-slate-900">{project.title}</h3>
+                {project.period && (
+                  <p className="inline-flex items-center gap-1 rounded-full border border-[var(--border-soft)] px-2 py-0.5 text-[0.58rem] uppercase tracking-[0.12em] text-slate-600">
+                    <Calendar size={12} /> {project.period}
+                  </p>
+                )}
+              </div>
+
+              <p className="text-sm text-slate-600">{project.summary}</p>
+
+              <ul className="space-y-1.5 text-[0.82rem] text-slate-700">
+                {project.learnings.map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="flex flex-wrap gap-1.5 text-[0.65rem] text-slate-600">
+                {project.techStack.map((tech) => (
+                  <span
+                    key={tech}
+                    className="rounded-full border border-[var(--border-soft)] px-2 py-0.5"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+
+              <div className="pt-1">
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border-soft)] px-3 py-1 text-[0.72rem]"
+                >
+                  <Github size={13} /> GitHub
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
 
       {galleryProject && (

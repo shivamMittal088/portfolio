@@ -28,7 +28,16 @@ const skills: SkillItem[] = [
   {
     title: "Concepts",
     focus: "Architecture",
-    items: ["DSA", "Authentication", "API Design"],
+    items: [
+      "DSA",
+      "Authentication",
+      "API Design",
+      "HTTP/TCP Workflow",
+      "Real-time Communication",
+      "Caching Strategy",
+      "Rate Limiting",
+      "Distributed Systems Basics",
+    ],
   },
 ]
 
