@@ -15,7 +15,7 @@ const stats = [
   { value: "5", label: "Core stacks" },
 ]
 
-const standoutChips = ["React", "TypeScript", "Node.js", "MongoDB"]
+const standoutChips = ["Mern Developer" ,"TypeScript","DSA","Performance Optimization" ,"WebSockets" ,"API Design", "Redis" ,"Docker" ,"Nginx"]
 
 const Hero = () => {
   return (

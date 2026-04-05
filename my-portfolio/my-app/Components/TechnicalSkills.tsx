@@ -13,7 +13,7 @@ const skills: SkillItem[] = [
   {
     title: "Web Development",
     focus: "Frontend + backend",
-    items: ["React", "Tailwind", "Node.js", "Express", "REST", "Redux"],
+    items: ["React", "Tailwind", "Node.js", "Express", "REST", "Redux" ,"WebSockets" ,"Redis" ,"Docker" ,"Nginx"],
   },
   {
     title: "Databases",
