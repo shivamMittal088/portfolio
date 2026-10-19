@@ -1,10 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
 
 :root {
-  --bg-page: #f4f6fb;
+  --bg-page: #f5f7fb;
   --bg-surface: #ffffff;
-  --bg-card: #f9fbff;
-  --border-soft: rgba(15, 23, 42, 0.18);
+  --bg-card: #f8faff;
+  --border-soft: #dbe3ef;
   --text-primary: #0f172a;
   --text-muted: #64748b;
   --accent: #2563eb;
@@ -17,8 +17,8 @@
 body {
   margin: 0;
   font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 0.92rem;
-  line-height: 1.5;
+  font-size: 1rem;
+  line-height: 1.6;
   background: var(--bg-page);
   color: var(--text-primary);
   min-height: 100vh;
@@ -33,10 +33,10 @@ body {
 
 .section-shell {
   border: 1px solid var(--border-soft);
-  border-radius: 28px;
-  padding: clamp(1.25rem, 3vw, 2.5rem);
+  border-radius: 24px;
+  padding: clamp(1.5rem, 3vw, 2.75rem);
   background: linear-gradient(135deg, var(--bg-surface), var(--bg-card));
-  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.045);
 }
 
 .section-shell + .section-shell,
@@ -52,23 +52,25 @@ body {
 }
 
 .section-label {
-  font-size: 0.62rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.2em;
   color: var(--text-muted);
+  font-weight: 700;
 }
 
 .section-title {
-  font-size: clamp(1.45rem, 3vw, 2rem);
-  font-weight: 600;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 700;
   color: var(--text-primary);
-  line-height: 1.2;
+  line-height: 1.08;
+  letter-spacing: -0.045em;
 }
 
 .section-subtitle {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #475569;
-  max-width: 60ch;
+  max-width: 65ch;
 }
 
 .section-divider {
@@ -82,17 +84,123 @@ body {
   border: 1px solid var(--border-soft);
   border-radius: 999px;
   padding: 0.35rem 0.85rem;
-  font-size: 0.6rem;
-  letter-spacing: 0.35em;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-muted);
 }
 
 .section-surface {
-  border: 1px solid var(--border-soft);
-  border-radius: 22px;
+  border-radius: 18px;
   background: var(--bg-surface);
-  padding: 1.25rem;
+  padding: 1.5rem;
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+}
+
+:where(a, button, summary):focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+:where(a, button, summary) {
+  transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, opacity 180ms ease;
+}
+
+:where(a, button, summary):hover {
+  opacity: 0.85;
+}
+
+button, summary {
+  cursor: pointer;
+}
+
+@keyframes page-appear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gallery-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.page-enter {
+  animation: page-appear 380ms ease-out both;
+}
+
+.hero-copy {
+  animation: rise-in 550ms cubic-bezier(0.22, 1, 0.36, 1) 70ms both;
+}
+
+.hero-portrait {
+  animation: rise-in 650ms cubic-bezier(0.22, 1, 0.36, 1) 170ms both;
+}
+
+.hero-stats {
+  animation: rise-in 500ms cubic-bezier(0.22, 1, 0.36, 1) 250ms both;
+}
+
+.cta-arrow {
+  transition: transform 200ms ease;
+}
+
+.project-card {
+  transition: transform 260ms ease, box-shadow 260ms ease;
+}
+
+.project-preview {
+  transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.case-study[open] > div {
+  animation: rise-in 260ms ease-out both;
+}
+
+.gallery-backdrop {
+  animation: page-appear 180ms ease-out both;
+}
+
+.gallery-panel {
+  animation: gallery-in 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (hover: hover) {
+  .project-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.1);
+  }
+
+  .project-card:hover .project-preview {
+    transform: scale(1.025);
+  }
+
+  a:hover .cta-arrow {
+    transform: translate(2px, -2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where(a, button, summary),
+  .project-card,
+  .project-preview,
+  .cta-arrow {
+    transition: none !important;
+  }
+
+  .page-enter,
+  .hero-copy,
+  .hero-portrait,
+  .hero-stats,
+  .case-study[open] > div,
+  .gallery-backdrop,
+  .gallery-panel {
+    animation: none !important;
+  }
 }
 
 .highlight-font {

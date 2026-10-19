@@ -51,10 +51,10 @@ const contactMethods = [
 const Contact = () => {
   return (
     <div className="space-y-6 sm:space-y-8">
-      <section className="section-shell space-y-1.5 text-center">
-        <p className="text-[0.6rem] uppercase tracking-[0.35em] text-slate-500">Contact</p>
+      <section className="page-intro section-shell space-y-1.5 text-center">
+        <p className="section-label">Contact</p>
         <h1 className="text-lg font-semibold text-slate-900">Let’s collaborate on something ambitious</h1>
-        <p className="text-[0.82rem] text-slate-600">
+        <p className="text-[0.875rem] text-slate-600">
           Whether you have a role, a prototype, or just an idea you want to stress-test, feel free to reach out.
         </p>
       </section>
@@ -68,7 +68,7 @@ const Contact = () => {
                 key={method.label}
                 href={method.href}
                 target={method.href.startsWith("http") ? "_blank" : undefined}
-                className="flex items-center gap-2 rounded-xl border border-[var(--border-soft)] bg-[var(--bg-surface)] px-3 py-2"
+                className="contact-card flex items-center gap-2 rounded-xl border border-[var(--border-soft)] bg-[var(--bg-surface)] px-3 py-2"
               >
                 <div
                   className="rounded-xl border p-2"
@@ -80,10 +80,10 @@ const Contact = () => {
                 >
                   <Icon size={16} />
                 </div>
-                <div className="flex-1 text-left">
-                  <p className="text-[0.55rem] uppercase tracking-[0.35em] text-slate-500">{method.hint}</p>
+                <div className="min-w-0 flex-1 text-left">
+                  <p className="text-[0.75rem] uppercase tracking-[0.35em] text-slate-500">{method.hint}</p>
                   <p className="text-sm font-semibold text-slate-900">{method.label}</p>
-                  <p className="text-[0.75rem] text-slate-600">{method.value}</p>
+                  <p className="contact-value text-[0.75rem] text-slate-600">{method.value}</p>
                 </div>
                 <Send className="text-slate-400" size={14} />
               </a>
@@ -92,10 +92,10 @@ const Contact = () => {
         </div>
       </section>
 
-      <section className="section-shell space-y-1 text-center">
-        <p className="text-[0.58rem] uppercase tracking-[0.35em] text-slate-500">Availability</p>
+      <section className="availability-card section-shell space-y-1 text-center">
+        <p className="section-label">Availability</p>
         <h2 className="text-base font-semibold text-slate-900">Open to full-time or contract opportunities</h2>
-        <p className="text-[0.78rem] text-slate-600">
+        <p className="text-[0.875rem] text-slate-600">
           Prefer hybrid or remote product teams working on thoughtful web experiences.
         </p>
       </section>

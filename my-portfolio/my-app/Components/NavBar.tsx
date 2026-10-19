@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { Menu, X } from "lucide-react"
 
@@ -18,11 +18,15 @@ const NavBar = () => {
   const location = useLocation()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
+  useEffect(() => {
+    // Navigation can also happen through browser history or links outside this header.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsMenuOpen(false)
+  }, [location.pathname])
+
   const isActive = (href: string) => {
-    if (href === "/") {
-      return location.pathname === "/"
-    }
-    return location.pathname.startsWith(href)
+    const currentPath = location.pathname.replace(/\/+$/, "") || "/"
+    return currentPath === href
   }
 
   const renderLinks = (isStacked = false) => (
@@ -32,14 +36,14 @@ const NavBar = () => {
           key={item.href}
           to={item.href}
           onClick={() => setIsMenuOpen(false)}
-          className={`relative rounded-full px-3 py-1.5 text-xs font-medium transition ${
+          className={`site-nav-link relative rounded-full px-3 py-1.5 text-xs font-medium transition ${
             isActive(item.href)
-              ? "text-slate-900"
+              ? isStacked ? "bg-blue-50 text-blue-700" : "text-slate-900"
               : "text-slate-500 hover:text-slate-900"
           }`}
         >
           <span>{item.label}</span>
-          {isActive(item.href) && (
+          {!isStacked && isActive(item.href) && (
             <span className="absolute inset-x-4 -bottom-1 h-0.5 rounded-full bg-[var(--accent)]" />
           )}
         </Link>
@@ -48,12 +52,12 @@ const NavBar = () => {
   )
 
   return (
-    <header className="sticky top-0 z-30 bg-[var(--bg-page)] pb-4 pt-6">
-      <div className="flex items-center justify-between gap-2.5 rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-surface)] px-3 py-1.5 shadow-sm">
-        <Link to="/" className="flex items-center gap-3 text-slate-900">
+    <header className="site-nav sticky top-0 z-30 bg-[var(--bg-page)] pb-4 pt-6">
+      <div className="site-nav-surface flex items-center justify-between gap-2.5 rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-surface)] px-3 py-1.5 shadow-sm">
+        <Link to="/" onClick={() => setIsMenuOpen(false)} className="site-brand flex items-center gap-3 text-slate-900">
           <div>
             <p className="text-xs font-semibold">Shivam Mittal</p>
-            <p className="text-[0.65rem] text-slate-500">Full-stack engineer</p>
+            <p className="text-[0.75rem] text-slate-500">Full-stack engineer</p>
           </div>
         </Link>
 
@@ -63,13 +67,13 @@ const NavBar = () => {
           <a
             href="/Resume.pdf"
             download
-            className="hidden rounded-full border border-[var(--border-soft)] px-2.5 py-1.5 text-[0.68rem] font-semibold text-slate-700 transition hover:text-slate-900 sm:inline-flex"
+            className="hidden rounded-full border border-[var(--border-soft)] px-2.5 py-1.5 text-[0.75rem] font-semibold text-slate-700 transition hover:text-slate-900 sm:inline-flex"
           >
             Download CV
           </a>
           <Link
             to="/contact"
-            className="hidden rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-[0.72rem] font-semibold text-slate-900 transition hover:border-slate-300 sm:inline-flex"
+            className="hidden rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-[0.75rem] font-semibold text-slate-900 transition hover:border-slate-300 sm:inline-flex"
           >
             Let&apos;s talk
           </Link>
@@ -77,8 +81,9 @@ const NavBar = () => {
           <button
             type="button"
             onClick={() => setIsMenuOpen((prev) => !prev)}
-            className="inline-flex items-center rounded-full border border-[var(--border-soft)] p-1.5 text-slate-900 transition hover:border-slate-300 md:hidden"
+            className="site-menu-toggle inline-flex items-center rounded-full border border-[var(--border-soft)] p-1.5 text-slate-900 transition hover:border-slate-300 md:hidden"
             aria-label="Toggle navigation"
+            aria-expanded={isMenuOpen}
           >
             {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
@@ -86,7 +91,7 @@ const NavBar = () => {
       </div>
 
       {isMenuOpen && (
-        <div className="mt-3 rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-4 shadow-sm md:hidden">
+        <div className="mobile-nav-panel mt-3 rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-4 shadow-sm md:hidden">
           {renderLinks(true)}
           <a
             href="/Resume.pdf"

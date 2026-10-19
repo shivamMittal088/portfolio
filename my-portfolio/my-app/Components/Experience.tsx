@@ -1,9 +1,11 @@
 import type { ReactNode } from "react"
+import GoSharpenerLogo from "./GoSharpenerLogo"
 
 type ExperienceItem = {
   company: string
   role: string
   period: string
+  started?: string
   summary: ReactNode
   achievements: string[]
   stack: string[]
@@ -11,21 +13,22 @@ type ExperienceItem = {
 
 const experiences: ExperienceItem[] = [
   {
-    company: "DSA Intern",
-    role: "Coding Blocks",
-    period: "Jun 2025 – Sep 2025",
+    company: "goSharpener",
+    role: "On-site Intern",
+    period: "Currently working",
+    started: "Since August 2026",
     summary:
-      "College-sponsored internship centered on sharpening core data-structure thinking through contests and guided mentorship.",
+      "Working on spreadsheet automation and internal workflows while learning the company's codebase through reviews.",
     achievements: [
-      "Solved 100+ LeetCode problems spanning arrays, linked lists, recursion, bit manipulation, and dynamic programming.",
-      "Improved problem-solving speed in C++ via weekly mock interviews and timed contest environments.",
-      "Documented reusable templates for common patterns to accelerate future interview prep.",
+      "Automated Excel-based student mapping and data analysis, grouping records as matched, review needed, or unmatched using admission number, email, and class plus full name.",
+      "Automated conversion from one file format to another and built workflows to keep tabs synchronized.",
+      "Currently working on rollback activity and reviewing the existing company code.",
     ],
-    stack: ["C++", "DSA", "Problem Solving"],
+    stack: ["Excel Automation", "Data Mapping", "Workflows", "Code Review"],
   },
   {
-    company: "Web Development Intern",
-    role: "AccioJob",
+    company: "AccioJob",
+    role: "Web Development Intern",
     period: "Jun 2024 – Sep 2024",
     summary:
       "College-sponsored internship focused on building a production-ready restaurant web app end-to-end.",
@@ -64,36 +67,42 @@ const experiences: ExperienceItem[] = [
 const Experience = () => {
   return (
     <div className="space-y-6 sm:space-y-8">
-      <section className="section-shell space-y-1">
-        <div className="flex items-center justify-between text-[0.6rem] uppercase tracking-[0.35em] text-slate-500">
-          <span>Experience</span>
-          <span>Focused sprints</span>
+      <section className="page-intro section-shell space-y-1">
+        <div className="flex items-center justify-between text-[0.75rem] uppercase tracking-[0.35em] text-slate-500">
+          <span className="section-label">Experience</span>
+          <span className="experience-kicker">Focused sprints</span>
         </div>
-        <h2 className="text-lg font-semibold text-slate-900">Shipping impactful work through focused sprints</h2>
-        <p className="text-[0.8rem] text-slate-600">
+        <h1 className="text-lg font-semibold text-slate-900">Shipping impactful work through focused sprints</h1>
+        <p className="text-[0.875rem] text-slate-600">
           I thrive in zero-to-one stages where clarity, velocity, and thoughtful engineering decisions matter most.
         </p>
       </section>
 
-      <section className="section-shell">
-        <div className="rounded-3xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-3">
-          <ul className="space-y-3">
+      <section className="experience-section section-shell">
+        <div className="content-grid-shell rounded-3xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-3">
+          <ul className="experience-list space-y-3">
             {experiences.map((experience) => (
               <li
                 key={experience.company}
-                className="rounded-xl border border-[var(--border-soft)] bg-white/85 px-4 py-3 shadow-[0_4px_12px_rgba(15,23,42,0.04)]"
+                className="detail-card experience-card rounded-xl border border-[var(--border-soft)] bg-white/85 px-4 py-3 shadow-[0_4px_12px_rgba(15,23,42,0.04)]"
               >
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <p className="text-[0.62rem] uppercase tracking-[0.32em] text-slate-500">{experience.period}</p>
-                  <h2 className="text-lg font-semibold text-slate-900">{experience.company}</h2>
+                  <p className={`text-[0.75rem] uppercase tracking-[0.32em] ${experience.started ? "text-emerald-700" : "text-slate-500"}`}>{experience.period}</p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    {experience.company === "goSharpener" && <GoSharpenerLogo className="go-logo-experience" alt="" />}
+                    <h2 className="text-lg font-semibold text-slate-900">{experience.company}</h2>
+                  </div>
                 </div>
-                <span className="text-[0.6rem] uppercase tracking-[0.3em] text-slate-500">{experience.role}</span>
+                <div className="ml-auto text-right">
+                  {experience.started && <p className="text-[0.75rem] font-semibold text-blue-700">{experience.started}</p>}
+                  <span className="text-[0.75rem] uppercase tracking-[0.3em] text-slate-500">{experience.role}</span>
+                </div>
               </div>
 
-              <p className="mt-2 text-[0.88rem] text-slate-600">{experience.summary}</p>
+              <p className="mt-2 text-[0.9375rem] text-slate-600">{experience.summary}</p>
 
-              <ul className="mt-2 space-y-1.5 text-[0.85rem] text-slate-700">
+              <ul className="mt-2 space-y-1.5 text-[0.875rem] text-slate-700">
                 {experience.achievements.map((item) => (
                   <li key={item} className="flex items-start gap-2">
                     <span className="mt-1 h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
@@ -102,7 +111,7 @@ const Experience = () => {
                 ))}
               </ul>
 
-                <div className="mt-3 flex flex-wrap gap-1.5 text-[0.7rem] text-slate-600">
+                <div className="mt-3 flex flex-wrap gap-1.5 text-[0.75rem] text-slate-600">
                   {experience.stack.map((tech) => (
                     <span key={tech} className="rounded-full border border-[var(--border-soft)] px-2.5 py-0.5">
                       {tech}

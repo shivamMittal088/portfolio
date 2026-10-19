@@ -1,0 +1,353 @@
+.ai-learning {
+  overflow: hidden;
+}
+
+.ai-learning-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1.4rem;
+}
+
+.ai-learning-heading h2 {
+  margin-top: 0.3rem;
+  color: #10213b;
+  font-size: clamp(1.55rem, 2.7vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+
+.ai-learning-heading > div > p:last-child {
+  max-width: 65ch;
+  margin-top: 0.55rem;
+  color: #52637d;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.ai-learning-status {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid #cce9df;
+  border-radius: 999px;
+  padding: 0.43rem 0.8rem;
+  background: #effbf6;
+  color: #087456;
+  font-size: 0.73rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ai-learning-status span {
+  width: 0.43rem;
+  height: 0.43rem;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 0.25rem rgba(16, 185, 129, 0.13);
+}
+
+.ai-learning-canvas {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid #263e66;
+  border-radius: 22px;
+  padding: clamp(1rem, 2.6vw, 1.8rem);
+  background:
+    radial-gradient(circle at 19% -8%, rgba(53, 114, 243, 0.35), transparent 36%),
+    radial-gradient(circle at 88% 95%, rgba(15, 174, 184, 0.16), transparent 37%),
+    linear-gradient(135deg, #101e39, #0a1428 76%);
+  color: #f8fbff;
+}
+
+.ai-learning-canvas::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.055) 1px, transparent 1px);
+  background-size: 26px 26px;
+  content: "";
+  pointer-events: none;
+}
+
+.ai-learning-canvas-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: #a9c0e4;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.67rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+}
+
+.ai-learning-canvas-top > span:first-child::before {
+  display: inline-block;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  margin-right: 0.55rem;
+  background: #67e8f9;
+  box-shadow: 0 0 12px rgba(103, 232, 249, 0.8);
+  content: "";
+  vertical-align: middle;
+}
+
+.ai-top-arrow {
+  color: #67e8f9;
+}
+
+.ai-learning-track {
+  position: relative;
+  height: 2.5rem;
+  margin: 1rem 0 0.25rem;
+}
+
+.ai-learning-rail {
+  position: absolute;
+  top: 50%;
+  right: 16.667%;
+  left: 16.667%;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(96, 165, 250, 0.7), rgba(125, 211, 252, 0.65), rgba(45, 212, 191, 0.65));
+  transform: translateY(-50%);
+}
+
+.ai-learning-packet {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: #b3f9ff;
+  box-shadow: 0 0 0 0.25rem rgba(103, 232, 249, 0.14), 0 0 18px rgba(103, 232, 249, 0.9);
+  animation: ai-packet-travel 7s ease-in-out infinite;
+}
+
+.ai-learning-track-node {
+  position: absolute;
+  top: 50%;
+  width: 0.72rem;
+  height: 0.72rem;
+  border: 2px solid #93c5fd;
+  border-radius: 50%;
+  background: #152c4e;
+  box-shadow: 0 0 0 0.35rem rgba(96, 165, 250, 0.12);
+  transform: translate(-50%, -50%);
+}
+
+.ai-learning-track-node:nth-child(2) { left: 16.667%; }
+.ai-learning-track-node:nth-child(3) { left: 50%; }
+.ai-learning-track-node:nth-child(4) { left: 83.333%; border-color: #5eead4; }
+
+.ai-learning-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.ai-learning-step {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  min-height: 17rem;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(148, 191, 249, 0.23);
+  border-radius: 17px;
+  padding: clamp(1rem, 1.8vw, 1.35rem);
+  background: rgba(255, 255, 255, 0.075);
+  box-shadow: 0 12px 30px rgba(3, 10, 25, 0.13);
+  backdrop-filter: blur(10px);
+  animation: ai-card-enter 650ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.ai-learning-step:nth-child(2) { animation-delay: 130ms; }
+.ai-learning-step:nth-child(3) { animation-delay: 260ms; }
+
+.ai-learning-step::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #60a5fa, #67e8f9);
+  content: "";
+}
+
+.ai-learning-step:nth-child(3)::before {
+  background: linear-gradient(90deg, #67e8f9, #5eead4);
+}
+
+.ai-learning-step-top {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.ai-learning-step-icon {
+  display: grid;
+  width: 2.6rem;
+  height: 2.6rem;
+  flex: none;
+  place-items: center;
+  border: 1px solid rgba(125, 211, 252, 0.25);
+  border-radius: 12px;
+  background: rgba(96, 165, 250, 0.14);
+  color: #a5d8ff;
+}
+
+.ai-learning-step:nth-child(3) .ai-learning-step-icon {
+  border-color: rgba(94, 234, 212, 0.25);
+  background: rgba(45, 212, 191, 0.12);
+  color: #99f6e4;
+}
+
+.ai-learning-step-number,
+.ai-learning-step-label,
+.ai-learning-next-label {
+  color: #a9c0e4;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ai-learning-step-label {
+  margin-top: 1.25rem;
+  color: #8eddea;
+}
+
+.ai-learning-step h3 {
+  margin-top: 0.2rem;
+  font-size: clamp(1.12rem, 1.8vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+}
+
+.ai-learning-step-description {
+  margin-top: 0.55rem;
+  color: #c8d6ea;
+  font-size: 0.83rem;
+  line-height: 1.55;
+}
+
+.ai-learning-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: auto;
+  padding-top: 1.15rem;
+}
+
+.ai-learning-topics span {
+  border: 1px solid rgba(167, 211, 255, 0.18);
+  border-radius: 999px;
+  padding: 0.22rem 0.48rem;
+  background: rgba(99, 145, 211, 0.12);
+  color: #d9e9ff;
+  font-size: 0.69rem;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.ai-learning-next {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border: 1px solid rgba(94, 234, 212, 0.22);
+  border-radius: 14px;
+  margin-top: 0.9rem;
+  padding: 0.8rem 1rem;
+  background: rgba(45, 212, 191, 0.075);
+}
+
+.ai-learning-next > div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.55rem 1rem;
+}
+
+.ai-learning-next-label { color: #85e7dc; }
+.ai-learning-next strong { font-size: 0.85rem; font-weight: 600; }
+.ai-learning-next strong span { margin: 0 0.2rem; color: #5eead4; }
+.ai-learning-next > p { color: #a9c0c8; font-size: 0.72rem; text-align: right; }
+
+.ai-learning-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.9rem;
+  color: #315bb9;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+}
+
+.ai-learning-source:hover { text-decoration-color: currentColor; }
+
+.ai-learning-canvas[data-visible="false"] .ai-learning-packet,
+.ai-learning-canvas[data-visible="false"] .ai-learning-step {
+  animation-play-state: paused;
+}
+
+@keyframes ai-packet-travel {
+  0%, 8% { left: 0; opacity: 0; }
+  14% { opacity: 1; }
+  88% { left: 100%; opacity: 1; }
+  96%, 100% { left: 100%; opacity: 0; }
+}
+
+@keyframes ai-card-enter {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 720px) {
+  .ai-learning-heading { flex-direction: column; gap: 0.85rem; }
+  .ai-learning-canvas-top > span:last-child { display: none; }
+  .ai-learning-track { display: none; }
+  .ai-learning-steps { grid-template-columns: 1fr; gap: 0.8rem; margin-top: 1.2rem; }
+  .ai-learning-step { min-height: 0; }
+  .ai-learning-step:not(:last-child)::after {
+    position: absolute;
+    right: 1.15rem;
+    bottom: 0.65rem;
+    color: #67e8f9;
+    content: "↓";
+    font-size: 1rem;
+    animation: ai-arrow-pulse 2s ease-in-out infinite;
+  }
+  .ai-learning-canvas[data-visible="false"] .ai-learning-step:not(:last-child)::after { animation-play-state: paused; }
+  .ai-learning-topics { padding-right: 1rem; }
+  .ai-learning-next { align-items: start; flex-direction: column; }
+  .ai-learning-next > p { text-align: left; }
+}
+
+@keyframes ai-arrow-pulse {
+  0%, 100% { opacity: 0.55; transform: translateY(-2px); }
+  50% { opacity: 1; transform: translateY(2px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-learning-packet,
+  .ai-learning-step,
+  .ai-learning-step:not(:last-child)::after {
+    animation: none;
+  }
+}

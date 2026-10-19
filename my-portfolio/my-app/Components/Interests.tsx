@@ -28,7 +28,7 @@ const interests: InterestItem[] = [
 
 const Interests = () => {
   return (
-    <section className="section-shell space-y-4">
+    <section className="interests-section section-shell space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="section-label">Beyond code</p>
@@ -37,19 +37,19 @@ const Interests = () => {
         <span className="section-chip">always curious</span>
       </div>
 
-      <div className="rounded-3xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-3">
+      <div className="content-grid-shell rounded-3xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-3">
         <ul className="grid gap-3 sm:grid-cols-2">
           {interests.map((interest, index) => (
             <li
               key={interest.title}
-              className="rounded-xl border border-[var(--border-soft)] bg-white/85 px-3 py-2.5 shadow-[0_4px_12px_rgba(15,23,42,0.04)]"
+              className="detail-card interest-card rounded-xl border border-[var(--border-soft)] bg-white/85 px-3 py-2.5 shadow-[0_4px_12px_rgba(15,23,42,0.04)]"
             >
-              <div className="flex items-center justify-between text-[0.6rem] uppercase tracking-[0.3em] text-slate-500">
+              <div className="flex items-center justify-between text-[0.75rem] uppercase tracking-[0.3em] text-slate-500">
                 <span>0{index + 1}</span>
                 <span>focus</span>
               </div>
               <p className="mt-1 text-base font-semibold text-slate-900">{interest.title}</p>
-              <p className="text-[0.85rem] text-slate-600">{interest.description}</p>
+              <p className="text-[0.875rem] text-slate-600">{interest.description}</p>
             </li>
           ))}
         </ul>

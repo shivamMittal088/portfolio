@@ -1,0 +1,30 @@
+{
+  "siteUrl": "https://www.theshivam.dev",
+  "imagePath": "/shivam.jpeg",
+  "notFound": {
+    "title": "Page Not Found | Shivam Mittal",
+    "description": "The page you requested is unavailable. Return to Shivam Mittal's portfolio to explore projects, experience, and contact details."
+  },
+  "routes": {
+    "/": {
+      "title": "Shivam Mittal | Full-Stack Developer",
+      "description": "Explore full-stack projects, experience, and technical skills from Shivam Mittal, a developer building thoughtful web products with React, TypeScript, and Node.js."
+    },
+    "/about": {
+      "title": "About Shivam Mittal | Engineering Approach",
+      "description": "Learn how Shivam Mittal approaches full-stack engineering, from product planning and system design to reliable releases."
+    },
+    "/projects": {
+      "title": "Projects & Case Studies | Shivam Mittal",
+      "description": "Explore Shivam Mittal's full-stack projects and case studies, including Expense Tracker, DevTinder, and NetflixGPT."
+    },
+    "/experience": {
+      "title": "Software Engineering Experience | Shivam Mittal",
+      "description": "Explore Shivam Mittal's experience at goSharpener and AccioJob, plus independent frontend work."
+    },
+    "/contact": {
+      "title": "Contact Shivam Mittal | Full-Stack Developer",
+      "description": "Get in touch with Shivam Mittal about full-stack development roles, freelance work, and product collaborations."
+    }
+  }
+}

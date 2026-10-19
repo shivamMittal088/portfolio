@@ -1,0 +1,29 @@
+.go-sharpener-logo {
+  display: block;
+  width: 9rem;
+  height: 4rem;
+  flex: none;
+  overflow: hidden;
+  border-radius: 0.55rem;
+  background: #fff;
+}
+
+.go-sharpener-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 48%;
+}
+
+.go-sharpener-logo.go-logo-hero,
+.go-sharpener-logo.go-logo-experience {
+  width: 6.5rem;
+  height: 2.9rem;
+}
+
+.go-sharpener-logo.go-logo-picker {
+  width: 6.1rem;
+  max-width: 100%;
+  height: 2.4rem;
+}

@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/generate-route-pages.mjs",
+    "test:seo": "npm run build && node scripts/verify-route-pages.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },

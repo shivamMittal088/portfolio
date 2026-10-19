@@ -43,25 +43,25 @@ const skills: SkillItem[] = [
 
 const TechnicalSkills = () => {
   return (
-    <section className="section-shell space-y-4">
+    <section className="skills-section section-shell space-y-4">
       <div className="flex flex-wrap items-end justify-between gap-2">
         <div>
           <p className="section-label">Stack</p>
           <h2 className="text-xl font-semibold text-slate-900">Technical Skills</h2>
         </div>
-        <p className="text-[0.8rem] text-slate-500">Fast scan of the tools I rely on.</p>
+        <p className="text-[0.875rem] text-slate-500">Fast scan of the tools I rely on.</p>
       </div>
 
-      <div className="rounded-3xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-3">
+      <div className="content-grid-shell rounded-3xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-3">
         <ul className="grid gap-3 sm:grid-cols-2">
           {skills.map((skill) => (
             <li
               key={skill.title}
-              className="rounded-xl border border-[var(--border-soft)] bg-white/80 px-3 py-2.5 shadow-[0_4px_12px_rgba(15,23,42,0.04)]"
+              className="detail-card skill-card rounded-xl border border-[var(--border-soft)] bg-white/80 px-3 py-2.5 shadow-[0_4px_12px_rgba(15,23,42,0.04)]"
             >
               <p className="text-sm font-semibold text-slate-900">{skill.title}</p>
-              <p className="text-[0.6rem] uppercase tracking-[0.3em] text-slate-500">{skill.focus}</p>
-              <p className="mt-1 text-[0.82rem] leading-relaxed text-slate-600">
+              <p className="text-[0.75rem] uppercase tracking-[0.3em] text-slate-500">{skill.focus}</p>
+              <p className="mt-1 text-[0.875rem] leading-relaxed text-slate-600">
                 {skill.items.join(" · ")}
               </p>
             </li>

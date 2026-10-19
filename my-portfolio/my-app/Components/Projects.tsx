@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import { createPortal } from "react-dom"
 import {
   Calendar,
   Github,
@@ -18,6 +19,11 @@ type ScreenshotSection = {
   imageIndexes: number[]
 }
 
+type ProjectImage = {
+  src: string
+  alt: string
+}
+
 type CaseStudy = {
   problem: string
   role: string
@@ -34,7 +40,7 @@ type Project = {
   caseStudy: CaseStudy
   highlights: string[]
   techStack: string[]
-  images: string[]
+  images: ProjectImage[]
   previewMode?: "default" | "portrait"
   screenshotSections?: ScreenshotSection[]
   frontendGithub?: string
@@ -57,17 +63,17 @@ const featuredProjects: Project[] = [
     period: "Jan 2026 – Feb 2026",
     previewMode: "portrait",
     images: [
-      "expenseTracker/localhost_5173_exports(iPhone 12 Pro).png",
-      "expenseTracker/www.track-expense.com_(iPhone 12 Pro).png",
-      "expenseTracker/www.track-expense.com_(iPhone 12 Pro) (1).png",
-      "expenseTracker/www.track-expense.com_(iPhone 12 Pro) (2).png",
-      "expenseTracker/www.track-expense.com_(iPhone 12 Pro) (3).png",
-      "expenseTracker/www.track-expense.com_analytics(iPhone 12 Pro).png",
-      "expenseTracker/www.track-expense.com_analytics(iPhone 12 Pro) (1).png",
-      "expenseTracker/www.track-expense.com_profile(iPhone 12 Pro).png",
-      "expenseTracker/www.track-expense.com_profile_69959c721e0e4eccf9ff98fa(iPhone 12 Pro).png",
-      "expenseTracker/www.track-expense.com_profile_69959c721e0e4eccf9ff98fa(iPhone 12 Pro) (1).png",
-      "expenseTracker/www.track-expense.com_transactions(iPhone 12 Pro).png",
+      { src: "expenseTracker/localhost_5173_exports(iPhone 12 Pro).png", alt: "Expense Tracker report export screen on a phone" },
+      { src: "expenseTracker/www.track-expense.com_(iPhone 12 Pro).png", alt: "Expense Tracker home screen on a phone" },
+      { src: "expenseTracker/www.track-expense.com_(iPhone 12 Pro) (1).png", alt: "Expense Tracker home quick actions, first view" },
+      { src: "expenseTracker/www.track-expense.com_(iPhone 12 Pro) (2).png", alt: "Expense Tracker home quick actions, second view" },
+      { src: "expenseTracker/www.track-expense.com_(iPhone 12 Pro) (3).png", alt: "Expense Tracker home quick actions, third view" },
+      { src: "expenseTracker/www.track-expense.com_analytics(iPhone 12 Pro).png", alt: "Expense Tracker analytics overview on a phone" },
+      { src: "expenseTracker/www.track-expense.com_analytics(iPhone 12 Pro) (1).png", alt: "Expense Tracker analytics detail on a phone" },
+      { src: "expenseTracker/www.track-expense.com_profile(iPhone 12 Pro).png", alt: "Expense Tracker profile screen on a phone" },
+      { src: "expenseTracker/www.track-expense.com_profile_69959c721e0e4eccf9ff98fa(iPhone 12 Pro).png", alt: "Expense Tracker public profile, first view" },
+      { src: "expenseTracker/www.track-expense.com_profile_69959c721e0e4eccf9ff98fa(iPhone 12 Pro) (1).png", alt: "Expense Tracker public profile, second view" },
+      { src: "expenseTracker/www.track-expense.com_transactions(iPhone 12 Pro).png", alt: "Expense Tracker transactions screen on a phone" },
     ],
     screenshotSections: [
       { title: "Home · Quick Actions", imageIndexes: [1, 2, 3, 4] },
@@ -94,7 +100,7 @@ const featuredProjects: Project[] = [
         "Maintaining observability while shipping quickly.",
       ],
       tradeoffs: [
-        "Used session-based auth to simplify browser security and lower token handling complexity.",
+        "Used JWTs in HTTP-only cookies to keep credentials out of browser-managed storage.",
         "Shipped analytics depth in phases to prioritize reliability and clean data flow first.",
       ],
       outcome: [
@@ -104,12 +110,11 @@ const featuredProjects: Project[] = [
       ],
     },
     highlights: [
-      "Implemented session-based authentication with centralized logging for API monitoring and error tracking.",
-      "Built scalable followers APIs using cursor-based pagination with infinite scroll and private account handling.",
-      "Optimized frontend performance using route/component lazy loading and modal prefetching, reducing bundle size and improving Lighthouse scores.",
-      "Enhanced efficiency by debouncing frequent state updates to minimize redundant API calls and configured secure profile photo uploads using Multer with Cloudinary storage.",
-      "Built data-driven APIs for recurring payments, expense history, advanced filtering, and spending trend analysis, including an interactive expense heatmap for financial insights.",
-      "Implemented dynamic Excel export (monthly custom date range) with formatted reports using ExcelJS.",
+      "Built secure authentication, API error tracking, and centralized Axiom logging.",
+      "Implemented expense history, recurring payments, advanced filters, and edit/restore flows.",
+      "Created spending analytics with payment breakdowns, trends, and a calendar heatmap.",
+      "Added offline expense storage with IndexedDB and sync after reconnecting.",
+      "Generated formatted Excel reports for monthly and custom date ranges.",
     ],
     techStack: [
       "MERN",
@@ -127,12 +132,12 @@ const featuredProjects: Project[] = [
     title: "DevTinder",
     period: "Oct 2025 – Nov 2025",
     images: [
-      "devTinder/Login.png",
-      "devTinder/Profile.png",
-      "devTinder/Feed.png",
-      "devTinder/Connections.png",
-      "devTinder/Requests.png",
-      "devTinder/WebChat.png",
+      { src: "devTinder/Login.png", alt: "DevTinder login screen" },
+      { src: "devTinder/Profile.png", alt: "DevTinder developer profile screen" },
+      { src: "devTinder/Feed.png", alt: "DevTinder discovery feed" },
+      { src: "devTinder/Connections.png", alt: "DevTinder connections screen" },
+      { src: "devTinder/Requests.png", alt: "DevTinder connection requests screen" },
+      { src: "devTinder/WebChat.png", alt: "DevTinder one-to-one chat screen" },
     ],
     description:
       "Developer matchmaking platform with curated feeds, profile discovery, and real-time request management.",
@@ -162,23 +167,24 @@ const featuredProjects: Project[] = [
       ],
     },
     highlights: [
-      "Designed modular controllers for feed, auth, profile, connection requests, and mutual matches.",
-      "Implemented JWT auth with HTTP-only cookies, input sanitization, and bcrypt hardening.",
-      "Shipped to AWS EC2 with NGINX reverse proxy, PM2, and MongoDB Atlas for dependable uptime.",
+      "Implemented JWT sign-in with HTTP-only cookies, input validation, and bcrypt password hashing.",
+      "Built developer profiles and a discovery feed centered on skills and relevant peers.",
+      "Added connection requests with accept/reject states and mutual connections.",
+      "Built one-to-one real-time chat for connected developers using Socket.IO.",
+      "Deployed the app on AWS EC2 with NGINX, PM2, and MongoDB Atlas.",
     ],
     techStack: ["MongoDB", "Express", "React", "Node.js", "AWS", "JWT"],
     frontendGithub: "https://github.com/shivamMittal088/devFrontend",
     backendGithub: "https://github.com/shivamMittal088/DevBackend",
-    liveLink: "http://13.234.204.27",
   },
   {
     title: "NetflixGPT",
     period: "2025",
     images: [
-      "NetflixGPT/Login.png",
-      "NetflixGPT/Offline.png",
-      "NetflixGPT/Search.png",
-      "NetflixGPT/State.png",
+      { src: "NetflixGPT/Login.png", alt: "NetflixGPT login screen" },
+      { src: "NetflixGPT/Offline.png", alt: "NetflixGPT offline state" },
+      { src: "NetflixGPT/Search.png", alt: "NetflixGPT movie search screen" },
+      { src: "NetflixGPT/State.png", alt: "NetflixGPT recommendation state" },
     ],
     description:
       "AI-assisted streaming companion that mixes TMDB data with OpenAI prompts for tailored watchlists.",
@@ -208,9 +214,11 @@ const featuredProjects: Project[] = [
       ],
     },
     highlights: [
-      "Built shimmer states, memoized selectors, and Redux Toolkit slices for fluid browsing.",
-      "Connected TMDB and ChatGPT APIs to offer multilingual, conversational suggestions.",
-      "Hardened Firebase auth flows and synced user preferences for consistent sessions.",
+      "Implemented Firebase sign-in and persistent user sessions.",
+      "Integrated TMDB data for movie browsing and search.",
+      "Connected OpenAI prompts to multilingual movie recommendations.",
+      "Organized browsing and personalization state with Redux Toolkit.",
+      "Added loading and offline states to keep the interface usable during slow or lost connections.",
     ],
     techStack: ["React", "Firebase", "Redux", "OpenAI", "TMDB"],
     frontendGithub: "https://github.com/shivamMittal088/netflix-gpt",
@@ -252,6 +260,10 @@ const miniProjects: MiniProject[] = [
 const Projects = () => {
   const [galleryProject, setGalleryProject] = useState<Project | null>(null)
   const [galleryIndex, setGalleryIndex] = useState(0)
+  const [galleryIndexes, setGalleryIndexes] = useState<number[]>([])
+  const [gallerySectionTitle, setGallerySectionTitle] = useState<string | null>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
+  const galleryPosition = galleryIndexes.indexOf(galleryIndex)
 
   const getSectionIcon = (title: string) => {
     const key = title.toLowerCase()
@@ -262,54 +274,95 @@ const Projects = () => {
     return ImageIcon
   }
 
-  const openGallery = (project: Project, index = 0) => {
+  const openGallery = (project: Project, indexes = project.images.map((_, index) => index), sectionTitle: string | null = null) => {
     setGalleryProject(project)
-    setGalleryIndex(index)
+    setGalleryIndexes(indexes)
+    setGalleryIndex(indexes[0])
+    setGallerySectionTitle(sectionTitle)
   }
 
   const closeGallery = () => setGalleryProject(null)
 
   const galleryPrev = () => {
-    if (!galleryProject) return
-    const total = galleryProject.images.length
-    setGalleryIndex((prev) => (prev - 1 + total) % total)
+    if (!galleryIndexes.length) return
+    setGalleryIndex((prev) => galleryIndexes[(galleryIndexes.indexOf(prev) - 1 + galleryIndexes.length) % galleryIndexes.length])
   }
 
   const galleryNext = () => {
-    if (!galleryProject) return
-    const total = galleryProject.images.length
-    setGalleryIndex((prev) => (prev + 1) % total)
+    if (!galleryIndexes.length) return
+    setGalleryIndex((prev) => galleryIndexes[(galleryIndexes.indexOf(prev) + 1) % galleryIndexes.length])
   }
+
+  useEffect(() => {
+    if (!galleryProject) return
+
+    const previousFocus = document.activeElement as HTMLElement | null
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    closeButtonRef.current?.focus()
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setGalleryProject(null)
+      if (event.key === "ArrowLeft") {
+        event.preventDefault()
+        setGalleryIndex((index) => galleryIndexes[(galleryIndexes.indexOf(index) - 1 + galleryIndexes.length) % galleryIndexes.length])
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault()
+        setGalleryIndex((index) => galleryIndexes[(galleryIndexes.indexOf(index) + 1) % galleryIndexes.length])
+      }
+      if (event.key === "Tab") {
+        const controls = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-gallery-control]"))
+        const first = controls[0]
+        const last = controls[controls.length - 1]
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault()
+          last?.focus()
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault()
+          first?.focus()
+        }
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+      document.body.style.overflow = previousOverflow
+      previousFocus?.focus()
+    }
+  }, [galleryProject, galleryIndexes])
 
   return (
     <div className="space-y-6 sm:space-y-8">
-      <section className="section-shell space-y-2 text-center">
+      <section className="page-intro projects-intro space-y-3 py-5 text-center">
         <p className="section-label">Projects</p>
-        <h1 className="text-2xl font-semibold text-slate-900">
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
           Products that taught me the most
         </h1>
-        <p className="section-subtitle mx-auto text-sm">
+        <p className="section-subtitle text-sm">
           Each build sharpened a different muscle—auth architecture, API orchestration, UI polish, or growth tooling.
         </p>
       </section>
 
-      <section className="section-shell space-y-4">
-        {featuredProjects.map((project) => (
+      <section className="space-y-6">
+        {featuredProjects.map((project, index) => (
           <article
             key={project.title}
-            className="rounded-3xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-4 sm:p-5 shadow-[0_12px_30px_rgba(15,23,42,0.06)] space-y-4"
+            className="project-card featured-project-card space-y-6 rounded-3xl border border-[var(--border-soft)] bg-white p-5 shadow-[0_12px_30px_rgba(15,23,42,0.05)] sm:p-8"
           >
             <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between">
               <div className="min-w-0">
-                <h2 className="text-lg font-semibold text-slate-900">{project.title}</h2>
-                <p className="mt-2 text-[0.85rem] text-slate-600 max-w-2xl">
+                <p className="project-index">Selected work / 0{index + 1}</p>
+                <h2 className="text-2xl font-bold text-slate-900">{project.title}</h2>
+                <p className="mt-2 text-[0.875rem] text-slate-600 max-w-2xl">
                   {project.description}
                 </p>
               </div>
 
               <div className="flex min-w-0 flex-col items-start gap-2 sm:items-end">
                 {project.period && (
-                  <p className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-[var(--border-soft)] px-2 py-1 text-[0.52rem] uppercase tracking-[0.12em] text-slate-600 sm:text-[0.58rem]">
+                  <p className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-[var(--border-soft)] px-2 py-1 text-[0.75rem] uppercase tracking-[0.12em] text-slate-600 sm:text-[0.75rem]">
                     <Calendar size={14} />
                     {project.period}
                   </p>
@@ -317,21 +370,21 @@ const Projects = () => {
               </div>
             </div>
 
-            <div className="mt-3 flex flex-col gap-4 lg:grid lg:grid-cols-[1.1fr_0.9fr]">
-              <section className="rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-card)] p-3.5">
-                <header className="flex items-center justify-between text-[0.58rem] uppercase tracking-[0.35em] text-slate-500">
+            <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+              <section className="project-highlight-panel order-2 rounded-2xl bg-[var(--bg-card)] p-5 lg:order-2">
+                <header className="flex items-center justify-between text-[0.75rem] uppercase tracking-[0.35em] text-slate-500">
                   <span>Key Highlights</span>
-                  <span>{Math.min(project.highlights.length, 3)} of {project.highlights.length}</span>
+                  <span>{Math.min(project.highlights.length, 5)} highlights</span>
                 </header>
-                <ul className="mt-3 space-y-2 text-[0.84rem] text-slate-700">
-                  {project.highlights.slice(0, 3).map((highlight) => (
+                <ul className="mt-3 space-y-2 text-[0.875rem] text-slate-700">
+                  {project.highlights.slice(0, 5).map((highlight) => (
                     <li key={highlight} className="flex items-start gap-3">
                       <span className="mt-1 h-2 w-2 rounded-full bg-[var(--accent)]" />
                       <span>{highlight}</span>
                     </li>
                   ))}
                 </ul>
-                <div className="mt-4 flex flex-wrap gap-2 text-[0.68rem] text-slate-600">
+                <div className="mt-4 flex flex-wrap gap-2 text-[0.75rem] text-slate-600">
                   {project.techStack.map((tech) => (
                     <span
                       key={tech}
@@ -343,14 +396,14 @@ const Projects = () => {
                 </div>
               </section>
 
-              <section className="space-y-3">
-                <div className="rounded-2xl border border-zinc-800 bg-zinc-950 p-3">
-                  <div className="rounded-xl border border-zinc-800 bg-black p-2">
-                    <div className="flex h-44 items-center justify-center sm:h-52">
+              <section className="order-1 space-y-3">
+                <div className="project-media rounded-2xl border border-zinc-800 bg-zinc-950 p-3">
+                  <div className="project-media-screen rounded-xl border border-zinc-800 bg-black p-2">
+                    <div className="flex h-56 items-center justify-center sm:h-72">
                       <img
-                        src={project.images[0]}
-                        alt={`${project.title} primary screenshot`}
-                        className={`h-full rounded-xl border-2 border-slate-900 bg-black p-1 object-contain ${
+                        src={`/${project.images[0].src}`}
+                        alt={project.images[0].alt}
+                        className={`project-preview h-full rounded-xl border-2 border-slate-900 bg-black p-1 object-contain ${
                           project.previewMode === "portrait" ? "w-auto max-w-[8.5rem] sm:max-w-[9.5rem]" : "w-full max-w-full"
                         }`}
                         loading="lazy"
@@ -364,20 +417,18 @@ const Projects = () => {
                       : [{ title: "Screenshots", imageIndexes: project.images.map((_, idx) => idx) }]
                     ).map((section) => {
                       const SectionIcon = getSectionIcon(section.title)
-                      const sectionStartIndex = section.imageIndexes[0] ?? 0
-
                       return (
                         <button
                           key={`${project.title}-${section.title}`}
                           type="button"
-                          onClick={() => openGallery(project, sectionStartIndex)}
+                          onClick={() => openGallery(project, section.imageIndexes, section.title)}
                           className="inline-flex items-center justify-between rounded-xl border border-zinc-700 bg-zinc-900 px-3 py-2 text-left text-xs text-zinc-200"
                         >
                           <span className="inline-flex items-center gap-1.5">
                             <SectionIcon size={14} />
                             <span className="font-medium">{section.title}</span>
                           </span>
-                          <span className="text-[0.65rem] text-zinc-400">{section.imageIndexes.length}</span>
+                          <span className="text-[0.75rem] text-zinc-400">{section.imageIndexes.length}</span>
                         </button>
                       )
                     })}
@@ -386,8 +437,8 @@ const Projects = () => {
                   <div className="mt-3 flex justify-end">
                     <button
                       type="button"
-                      onClick={() => openGallery(project, 0)}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-zinc-700 bg-zinc-900 px-2 py-0.5 text-[0.55rem] font-semibold text-zinc-100 sm:px-2.5 sm:text-[0.6rem]"
+                      onClick={() => openGallery(project)}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-zinc-700 bg-zinc-900 px-2 py-0.5 text-[0.75rem] font-semibold text-zinc-100 sm:px-2.5 sm:text-[0.75rem]"
                     >
                       <ImageIcon size={16} /> View gallery
                     </button>
@@ -396,27 +447,27 @@ const Projects = () => {
               </section>
             </div>
 
-            <section className="rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-card)] p-3.5 sm:p-4">
-              <div className="flex items-center justify-between">
-                <p className="text-[0.58rem] uppercase tracking-[0.32em] text-slate-500">Case Study Snapshot</p>
-                <p className="text-[0.58rem] uppercase tracking-[0.25em] text-slate-500">Essential only</p>
-              </div>
+            <details className="case-study group rounded-2xl bg-[var(--bg-card)] p-4 sm:p-5">
+              <summary className="flex list-none items-center justify-between gap-4 text-sm font-semibold text-slate-800 [&::-webkit-details-marker]:hidden">
+                Read {project.title} case study
+                <span className="text-blue-700 transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+              </summary>
 
-              <div className="mt-3 grid gap-2.5 md:grid-cols-3">
+              <div className="mt-5 grid gap-3 md:grid-cols-3">
                 <article className="rounded-xl border border-[var(--border-soft)] bg-white p-3">
-                  <p className="text-[0.58rem] uppercase tracking-[0.25em] text-slate-500">Problem</p>
-                  <p className="mt-1 text-[0.82rem] text-slate-700">{project.caseStudy.problem}</p>
+                  <p className="text-[0.75rem] uppercase tracking-[0.25em] text-slate-500">Problem</p>
+                  <p className="mt-1 text-[0.875rem] text-slate-700">{project.caseStudy.problem}</p>
                 </article>
 
                 <article className="rounded-xl border border-[var(--border-soft)] bg-white p-3">
-                  <p className="text-[0.58rem] uppercase tracking-[0.25em] text-slate-500">Role</p>
-                  <p className="mt-1 text-[0.82rem] text-slate-700">{project.caseStudy.role}</p>
+                  <p className="text-[0.75rem] uppercase tracking-[0.25em] text-slate-500">Role</p>
+                  <p className="mt-1 text-[0.875rem] text-slate-700">{project.caseStudy.role}</p>
                 </article>
 
                 <article className="rounded-xl border border-[var(--border-soft)] bg-white p-3">
-                  <p className="text-[0.58rem] uppercase tracking-[0.25em] text-slate-500">Outcome</p>
-                  <ul className="mt-1.5 space-y-1.5 text-[0.82rem] text-slate-700">
-                    {project.caseStudy.outcome.slice(0, 2).map((result) => (
+                  <p className="text-[0.75rem] uppercase tracking-[0.25em] text-slate-500">Outcome</p>
+                  <ul className="mt-1.5 space-y-1.5 text-[0.875rem] text-slate-700">
+                    {project.caseStudy.outcome.map((result) => (
                       <li key={result} className="flex items-start gap-2">
                         <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-emerald-500" />
                         <span>{result}</span>
@@ -425,9 +476,32 @@ const Projects = () => {
                   </ul>
                 </article>
               </div>
-            </section>
 
-            <div className="mt-3 flex flex-wrap gap-2 text-[0.68rem]">
+              <div className="mt-5 grid gap-5 border-t border-[var(--border-soft)] pt-5 md:grid-cols-3">
+                {([
+                  ["Technical choices", project.caseStudy.techChoices],
+                  ["Challenges", project.caseStudy.challenges],
+                  ["Tradeoffs", project.caseStudy.tradeoffs],
+                ] as const).map(([title, items]) => (
+                  <div key={title}>
+                    <h3 className="text-sm font-semibold text-slate-900">{title}</h3>
+                    <ul className="mt-2 list-disc space-y-2 pl-5 text-sm text-slate-700">
+                      {items.map((item) => <li key={item}>{item}</li>)}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+              {project.highlights.length > 5 && (
+                <div className="mt-5 border-t border-[var(--border-soft)] pt-5">
+                  <h3 className="text-sm font-semibold text-slate-900">More highlights</h3>
+                  <ul className="mt-2 list-disc space-y-2 pl-5 text-sm text-slate-700">
+                    {project.highlights.slice(5).map((highlight) => <li key={highlight}>{highlight}</li>)}
+                  </ul>
+                </div>
+              )}
+            </details>
+
+            <div className="project-links mt-3 flex flex-wrap gap-2 text-[0.75rem]">
               {project.frontendGithub && (
                 <a
                   href={project.frontendGithub}
@@ -476,12 +550,12 @@ const Projects = () => {
           {miniProjects.map((project) => (
             <article
               key={project.title}
-              className="rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-4 space-y-3"
+              className="project-card mini-project-card rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-4 space-y-3"
             >
               <div className="flex items-start justify-between gap-2">
                 <h3 className="text-base font-semibold text-slate-900">{project.title}</h3>
                 {project.period && (
-                  <p className="inline-flex items-center gap-1 rounded-full border border-[var(--border-soft)] px-2 py-0.5 text-[0.58rem] uppercase tracking-[0.12em] text-slate-600">
+                  <p className="inline-flex items-center gap-1 rounded-full border border-[var(--border-soft)] px-2 py-0.5 text-[0.75rem] uppercase tracking-[0.12em] text-slate-600">
                     <Calendar size={12} /> {project.period}
                   </p>
                 )}
@@ -489,7 +563,7 @@ const Projects = () => {
 
               <p className="text-sm text-slate-600">{project.summary}</p>
 
-              <ul className="space-y-1.5 text-[0.82rem] text-slate-700">
+              <ul className="space-y-1.5 text-[0.875rem] text-slate-700">
                 {project.learnings.map((item) => (
                   <li key={item} className="flex items-start gap-2">
                     <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
@@ -498,7 +572,7 @@ const Projects = () => {
                 ))}
               </ul>
 
-              <div className="flex flex-wrap gap-1.5 text-[0.65rem] text-slate-600">
+              <div className="flex flex-wrap gap-1.5 text-[0.75rem] text-slate-600">
                 {project.techStack.map((tech) => (
                   <span
                     key={tech}
@@ -514,7 +588,7 @@ const Projects = () => {
                   href={project.github}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border-soft)] px-3 py-1 text-[0.72rem]"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border-soft)] px-3 py-1 text-[0.75rem]"
                 >
                   <Github size={13} /> GitHub
                 </a>
@@ -524,14 +598,21 @@ const Projects = () => {
         </div>
       </section>
 
-      {galleryProject && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/65 px-3 py-6">
+      {galleryProject && createPortal(
+        <div
+          className="gallery-backdrop fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-slate-900/75 px-3 py-3 sm:items-center sm:py-6"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`${galleryProject.title} screenshot gallery`}
+        >
           <div
-            className={`relative w-full rounded-2xl border border-zinc-800 bg-zinc-950 p-5 shadow-xl ${
+            className={`gallery-panel relative my-auto w-full rounded-2xl border border-zinc-800 bg-zinc-950 p-3 shadow-xl sm:p-5 ${
               galleryProject.previewMode === "portrait" ? "max-w-md" : "max-w-3xl"
             }`}
           >
             <button
+              ref={closeButtonRef}
+              data-gallery-control
               onClick={closeGallery}
               className="absolute right-5 top-5 rounded-full border border-zinc-700 bg-zinc-900 p-1.5 text-zinc-200"
               aria-label="Close gallery"
@@ -540,38 +621,48 @@ const Projects = () => {
             </button>
 
             <div className="mb-3 flex items-center justify-between pr-8 text-xs text-zinc-400">
-              <p className="font-semibold text-zinc-100">{galleryProject.title}</p>
+              <p className="font-semibold text-zinc-100">{galleryProject.title}{gallerySectionTitle ? ` · ${gallerySectionTitle}` : ""}</p>
               <span>
-                {galleryIndex + 1} / {galleryProject.images.length}
+                {galleryPosition + 1} / {galleryIndexes.length}
               </span>
             </div>
+            <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+              {galleryProject.images[galleryIndex].alt}. Screenshot {galleryPosition + 1} of {galleryIndexes.length}.
+            </p>
 
             <div className="relative overflow-hidden rounded-xl border border-zinc-800 bg-black">
-              <div className="flex h-[65vh] items-center justify-center p-2 sm:p-3">
+              <div className="flex h-[min(65vh,32rem)] items-center justify-center p-2 sm:p-3">
                 <img
-                  src={galleryProject.images[galleryIndex]}
+                  src={`/${galleryProject.images[galleryIndex].src}`}
                   className="max-h-full max-w-full rounded-xl border-2 border-slate-900 bg-black p-1 object-contain"
-                  alt={`${galleryProject.title} preview`}
+                  alt={galleryProject.images[galleryIndex].alt}
                 />
               </div>
 
-              <button
-                onClick={galleryPrev}
-                className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-zinc-700 bg-zinc-900/95 p-2.5 text-zinc-100"
-                aria-label="Previous screenshot"
-              >
-                <ChevronLeft size={22} />
-              </button>
-              <button
-                onClick={galleryNext}
-                className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full border border-zinc-700 bg-zinc-900/95 p-2.5 text-zinc-100"
-                aria-label="Next screenshot"
-              >
-                <ChevronRight size={22} />
-              </button>
+              {galleryIndexes.length > 1 && (
+                <>
+                  <button
+                    data-gallery-control
+                    onClick={galleryPrev}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-zinc-700 bg-zinc-900/95 p-2.5 text-zinc-100"
+                    aria-label="Previous screenshot"
+                  >
+                    <ChevronLeft size={22} />
+                  </button>
+                  <button
+                    data-gallery-control
+                    onClick={galleryNext}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full border border-zinc-700 bg-zinc-900/95 p-2.5 text-zinc-100"
+                    aria-label="Next screenshot"
+                  >
+                    <ChevronRight size={22} />
+                  </button>
+                </>
+              )}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </div>
   )
