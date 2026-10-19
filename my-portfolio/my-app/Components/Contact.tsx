@@ -87,7 +87,6 @@ const Contact = () => {
             <div className="contact-email-menu">
               <a href={gmailCompose} target="_blank" rel="noopener noreferrer">Open Gmail <ArrowUpRight size={15} aria-hidden="true" /></a>
               <a href={outlookCompose} target="_blank" rel="noopener noreferrer">Open Outlook <ArrowUpRight size={15} aria-hidden="true" /></a>
-              <a href={"mailto:" + email}>Use email app <ArrowUpRight size={15} aria-hidden="true" /></a>
             </div>
           </details>
           <button className="contact-copy-action" type="button" onClick={copyEmail}>
