@@ -14,8 +14,8 @@ const socials = [
     hint: "Say hi"
   },
   {
-    label: "Contact",
-    href: "/contact",
+    label: "Email",
+    href: "mailto:shivamofficialsm@gmail.com",
     icon: Mail,
     hint: "Write"
   }
@@ -44,7 +44,6 @@ const Footer = () => {
                     key={social.label}
                     href={social.href}
                     target={social.href.startsWith("http") ? "_blank" : undefined}
-                    rel={social.href.startsWith("http") ? "noopener noreferrer" : undefined}
                     className="footer-link group flex flex-col items-center gap-1 rounded-xl border border-[var(--border-soft)] bg-[var(--bg-card)] px-2.5 py-2 text-slate-900"
                   >
                     <Icon size={18} />
