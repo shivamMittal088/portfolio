@@ -61,3 +61,12 @@ test("offline navigation still returns the saved route", async () => {
   })
   assert.equal(await response.text(), "saved page")
 })
+
+test("an unsaved route shows the offline page when disconnected", async () => {
+  const response = await dispatchFetch({
+    request: { url: "https://www.theshivam.dev/unsaved", method: "GET", mode: "navigate" },
+    fetchResponse: Promise.reject(new Error("offline")),
+    cache: { match: async (route) => route === "/offline.html" ? new Response("offline page") : undefined },
+  })
+  assert.equal(await response.text(), "offline page")
+})

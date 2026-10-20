@@ -18,6 +18,23 @@ body { background: var(--bg-page); }
 }
 .site-main { padding-top: clamp(1.1rem, 2.8vw, 2.25rem); }
 
+.offline-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 22px;
+  padding: clamp(1.1rem, 2.5vw, 1.6rem);
+  background: linear-gradient(120deg, var(--bg-surface), var(--bg-card));
+  box-shadow: 0 16px 38px rgba(30, 50, 88, 0.055);
+}
+.offline-notice-icon { display: grid; width: 3rem; height: 3rem; flex: none; place-items: center; border-radius: 15px; background: rgba(40, 86, 217, 0.1); color: var(--accent); }
+.offline-notice-label { color: var(--accent); font-size: 0.7rem; font-weight: 800; letter-spacing: 0.14em; }
+.offline-notice-label span { color: var(--text-muted); font-weight: 600; letter-spacing: 0; text-transform: none; }
+.offline-notice h2 { margin-top: 0.3rem; color: var(--text-primary); font-size: clamp(1.3rem, 3vw, 1.65rem); font-weight: 700; letter-spacing: -0.045em; line-height: 1.2; }
+.offline-notice h2 + p { max-width: 72ch; margin-top: 0.5rem; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+
 .site-nav { padding-top: clamp(0.8rem, 2vw, 1.4rem); background: linear-gradient(to bottom, rgba(242, 245, 251, 0.97) 76%, rgba(242, 245, 251, 0)); backdrop-filter: blur(10px); }
 .site-nav-surface {
   min-height: 3.8rem;

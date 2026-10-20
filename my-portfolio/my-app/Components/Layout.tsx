@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef } from "react"
 import { Outlet, useLocation, useNavigationType } from "react-router-dom"
+import { WifiOff } from "lucide-react"
 import NavBar from "./NavBar"
 import Footer from "./Footer"
 import { useOnlineStatus } from "../src/useOnlineStatus"
@@ -56,13 +57,19 @@ const Layout = () => {
 
   return (
     <div className="site-frame min-h-screen bg-[var(--bg-page)] text-[var(--text-primary)]">
-      {!isOnline && (
-        <div role="status" className="border-b border-amber-300 bg-amber-50 px-4 py-2 text-center text-sm font-medium text-amber-950">
-          You&rsquo;re offline. Saved portfolio pages are available, but messages and external links need a connection.
-        </div>
-      )}
       <div className="site-content mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 sm:px-6 lg:px-8">
         <NavBar />
+
+        {!isOnline && (
+          <section className="offline-notice" role="status" aria-live="polite" aria-label="Offline status">
+            <span className="offline-notice-icon" aria-hidden="true"><WifiOff size={23} strokeWidth={1.8} /></span>
+            <div>
+              <p className="offline-notice-label">OFFLINE MODE <span>· Saved pages available</span></p>
+              <h2>You&rsquo;re offline. Keep exploring.</h2>
+              <p>Your saved portfolio pages still work. To use the site offline on another device, open it once with internet and let it finish loading. Messages and external links need a connection.</p>
+            </div>
+          </section>
+        )}
 
         {/* Main content area */}
         <main key={pathname} className="site-main page-enter flex-1 space-y-8 pb-16 pt-8 sm:space-y-10">

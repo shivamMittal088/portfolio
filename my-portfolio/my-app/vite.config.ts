@@ -29,7 +29,7 @@ export default defineConfig({
 
           if (pathname !== "/" && pageRoutes.has(pathname)) {
             request.url = `${pathname}/index.html${url.search}`
-          } else if (pathname !== "/" && pathname !== "/404.html" && (path.extname(pathname) === "" || path.extname(pathname) === ".html")) {
+          } else if (pathname !== "/" && pathname !== "/404.html" && pathname !== "/offline.html" && (path.extname(pathname) === "" || path.extname(pathname) === ".html")) {
             const notFoundFile = path.resolve(server.config.root, server.config.build.outDir, "404.html")
             void readFile(notFoundFile)
               .then((html) => {
