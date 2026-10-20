@@ -40,25 +40,44 @@ self.addEventListener("fetch", (event) => {
 
   if (request.mode === "navigate") {
     event.respondWith((async () => {
-      const cache = await caches.open(config.cacheName)
       const route = routePath(url)
       try {
         const response = await fetch(request)
-        if (response.ok && routeSet.has(route)) await cache.put(route, response.clone())
+        if (response.ok && routeSet.has(route)) {
+          const copy = response.clone()
+          event.waitUntil(caches.open(config.cacheName)
+            .then((cache) => cache.put(route, copy))
+            .catch(() => {}))
+        }
         return response
       } catch {
-        return (await cache.match(route)) || (await cache.match("/offline.html"))
+        try {
+          const cache = await caches.open(config.cacheName)
+          return (await cache.match(route)) || (await cache.match("/offline.html")) || Response.error()
+        } catch {
+          return Response.error()
+        }
       }
     })())
     return
   }
 
   event.respondWith((async () => {
-    const cache = await caches.open(config.cacheName)
-    const cached = await cache.match(request)
+    let cached
+    try {
+      const cache = await caches.open(config.cacheName)
+      cached = await cache.match(request)
+    } catch {
+      // Storage can be unavailable even while the network works.
+    }
     if (cached) return cached
     const response = await fetch(request)
-    if (response.ok) await cache.put(request, response.clone())
+    if (response.ok) {
+      const copy = response.clone()
+      event.waitUntil(caches.open(config.cacheName)
+        .then((cache) => cache.put(request, copy))
+        .catch(() => {}))
+    }
     return response
   })())
 })

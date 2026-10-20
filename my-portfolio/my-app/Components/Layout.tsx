@@ -2,7 +2,6 @@ import { useEffect, useLayoutEffect, useRef } from "react"
 import { Outlet, useLocation, useNavigationType } from "react-router-dom"
 import NavBar from "./NavBar"
 import Footer from "./Footer"
-import HomeShimmer from "./HomeShimmer"
 import { useOnlineStatus } from "../src/useOnlineStatus"
 import seo from "../seo.config.json"
 
@@ -57,7 +56,6 @@ const Layout = () => {
 
   return (
     <div className="site-frame min-h-screen bg-[var(--bg-page)] text-[var(--text-primary)]">
-      <HomeShimmer />
       {!isOnline && (
         <div role="status" className="border-b border-amber-300 bg-amber-50 px-4 py-2 text-center text-sm font-medium text-amber-950">
           You&rsquo;re offline. Saved portfolio pages are available, but messages and external links need a connection.

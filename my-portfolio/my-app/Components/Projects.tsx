@@ -307,6 +307,9 @@ const Projects = () => {
 
     const previousFocus = document.activeElement as HTMLElement | null
     const previousOverflow = document.body.style.overflow
+    const appRoot = document.getElementById("root")
+    const previousInert = appRoot?.inert ?? false
+    if (appRoot) appRoot.inert = true
     document.body.style.overflow = "hidden"
     closeButtonRef.current?.focus()
 
@@ -338,6 +341,7 @@ const Projects = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown)
       document.body.style.overflow = previousOverflow
+      if (appRoot) appRoot.inert = previousInert
       previousFocus?.focus()
     }
   }, [galleryProject, galleryIndexes])
