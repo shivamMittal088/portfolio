@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef } from "react"
 import { Outlet, useLocation, useNavigationType } from "react-router-dom"
 import NavBar from "./NavBar"
 import Footer from "./Footer"
+import HomeShimmer from "./HomeShimmer"
 import seo from "../seo.config.json"
 
 type PageMetadata = { title: string; description: string }
@@ -54,7 +55,8 @@ const Layout = () => {
 
   return (
     <div className="site-frame min-h-screen bg-[var(--bg-page)] text-[var(--text-primary)]">
-      <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 sm:px-6 lg:px-8">
+      <HomeShimmer />
+      <div className="site-content mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 sm:px-6 lg:px-8">
         <NavBar />
 
         {/* Main content area */}

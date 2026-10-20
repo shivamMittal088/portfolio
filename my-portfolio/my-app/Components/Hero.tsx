@@ -1,4 +1,4 @@
-import type { PointerEvent } from "react"
+import { useEffect, useRef, type PointerEvent } from "react"
 import { Link } from "react-router-dom"
 import { ArrowUpRight } from "lucide-react"
 import Interests from "./Interests"
@@ -40,6 +40,15 @@ const handlePortraitPointerMove = (event: PointerEvent<HTMLDivElement>) => {
 }
 
 const Hero = () => {
+  const photoFrameRef = useRef<HTMLDivElement>(null)
+  const photoRef = useRef<HTMLImageElement>(null)
+
+  useEffect(() => {
+    if (photoRef.current && !photoRef.current.complete) {
+      photoFrameRef.current?.setAttribute("data-loading", "")
+    }
+  }, [])
+
   return (
     <div className="space-y-8 sm:space-y-10">
       <section
@@ -94,8 +103,15 @@ const Hero = () => {
           >
             <aside className="hero-portrait">
               <div className="hero-profile-top">
-                <div className="hero-photo-frame">
-                  <img src="/shivam.jpeg" alt="Shivam Mittal" className="hero-photo" />
+                <div ref={photoFrameRef} className="hero-photo-frame">
+                  <img
+                    ref={photoRef}
+                    src="/shivam.jpeg"
+                    alt="Shivam Mittal"
+                    className="hero-photo"
+                    onLoad={() => photoFrameRef.current?.removeAttribute("data-loading")}
+                    onError={() => photoFrameRef.current?.removeAttribute("data-loading")}
+                  />
                 </div>
                 <div className="hero-profile-copy">
                   <span className="hero-profile-monogram" aria-hidden="true">SM.</span>
