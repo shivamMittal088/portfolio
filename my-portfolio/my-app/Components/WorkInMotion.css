@@ -499,7 +499,7 @@
   animation-play-state: paused !important;
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media print, (prefers-reduced-motion: reduce) {
   .wm-stage *,
   .wm-stage *::before,
   .wm-stage *::after {

@@ -15,10 +15,8 @@ self.addEventListener("install", (event) => {
       if (!response.ok) throw new Error(`Could not cache ${url}: ${response.status}`)
       await cache.put(url, response)
     }))
-    await Promise.allSettled(config.optionalUrls.map(async (url) => {
-      const response = await fetch(url, { cache: "reload" })
-      if (response.ok) await cache.put(url, response)
-    }))
+    // Gallery images and downloads use the runtime cache after they are requested.
+    // Their size or availability must not block the saved pages becoming usable.
     await self.skipWaiting()
   })())
 })

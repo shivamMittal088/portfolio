@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useLayoutEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import {
   Calendar,
@@ -302,7 +302,7 @@ const Projects = () => {
     setGalleryIndex((prev) => galleryIndexes[(galleryIndexes.indexOf(prev) + 1) % galleryIndexes.length])
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!galleryProject) return
 
     const previousFocus = document.activeElement as HTMLElement | null
@@ -342,12 +342,12 @@ const Projects = () => {
       window.removeEventListener("keydown", handleKeyDown)
       document.body.style.overflow = previousOverflow
       if (appRoot) appRoot.inert = previousInert
-      previousFocus?.focus()
+      if (previousFocus?.isConnected) previousFocus.focus({ preventScroll: true })
     }
   }, [galleryProject, galleryIndexes])
 
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <div className="projects-page page-stack">
       <section className="page-intro projects-intro space-y-3 py-5 text-center">
         <p className="section-label">Projects</p>
         <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
@@ -358,7 +358,7 @@ const Projects = () => {
         </p>
       </section>
 
-      <section className="space-y-6">
+      <section className="selected-projects page-stack" aria-label="Selected projects">
         {featuredProjects.map((project, index) => (
           <article
             key={project.title}
@@ -383,7 +383,7 @@ const Projects = () => {
               </div>
             </div>
 
-            <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+            <div className="project-overview-grid grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
               <section className="project-highlight-panel order-2 rounded-2xl bg-[var(--bg-card)] p-5 lg:order-2">
                 <header className="flex items-center justify-between text-[0.75rem] uppercase tracking-[0.35em] text-slate-500">
                   <span>Key Highlights</span>
@@ -558,7 +558,7 @@ const Projects = () => {
         ))}
       </section>
 
-      <section className="section-shell space-y-4">
+      <section className="mini-projects-section section-shell space-y-4">
         <div className="space-y-2">
           <p className="section-label">Mini Projects</p>
           <h2 className="text-xl font-semibold text-slate-900">Focused Learning Builds</h2>
@@ -631,21 +631,21 @@ const Projects = () => {
               galleryProject.previewMode === "portrait" ? "max-w-md" : "max-w-3xl"
             }`}
           >
-            <button
-              ref={closeButtonRef}
-              data-gallery-control
-              onClick={closeGallery}
-              className="absolute right-5 top-5 rounded-full border border-zinc-700 bg-zinc-900 p-1.5 text-zinc-200"
-              aria-label="Close gallery"
-            >
-              <X size={18} />
-            </button>
-
-            <div className="mb-3 flex items-center justify-between pr-8 text-xs text-zinc-400">
-              <p className="font-semibold text-zinc-100">{galleryProject.title}{gallerySectionTitle ? ` · ${gallerySectionTitle}` : ""}</p>
-              <span>
+            <div className="mb-3 flex items-center gap-3 text-xs text-zinc-400">
+              <p className="min-w-0 flex-1 break-words font-semibold text-zinc-100">{galleryProject.title}{gallerySectionTitle ? ` · ${gallerySectionTitle}` : ""}</p>
+              <span className="shrink-0 whitespace-nowrap tabular-nums">
                 {galleryPosition + 1} / {galleryIndexes.length}
               </span>
+              <button
+                ref={closeButtonRef}
+                data-gallery-control
+                type="button"
+                onClick={closeGallery}
+                className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-full border border-zinc-700 bg-zinc-900 text-zinc-200"
+                aria-label="Close gallery"
+              >
+                <X size={18} aria-hidden="true" />
+              </button>
             </div>
             <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
               {galleryProject.images[galleryIndex].alt}. Screenshot {galleryPosition + 1} of {galleryIndexes.length}.

@@ -21,7 +21,7 @@ const steps = [
 
 const About = () => {
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <div className="about-page page-stack">
       <section className="page-intro section-shell space-y-4">
         <p className="section-label">About me</p>
         <h1 className="max-w-3xl text-3xl font-semibold leading-tight text-slate-900 sm:text-4xl">
@@ -39,7 +39,7 @@ const About = () => {
         </div>
       </section>
 
-      <section className="section-shell space-y-6" aria-labelledby="approach-title">
+      <section className="approach-section section-shell space-y-6" aria-labelledby="approach-title">
         <div>
           <p className="section-label">My approach</p>
           <h2 id="approach-title" className="mt-2 text-2xl font-semibold text-slate-900">
@@ -47,7 +47,7 @@ const About = () => {
           </h2>
         </div>
 
-        <ol className="grid gap-3 md:grid-cols-3">
+        <ol className="approach-grid grid gap-3 md:grid-cols-3">
           {steps.map((step) => (
             <li key={step.number} className="rounded-2xl border border-[var(--border-soft)] bg-white/85 p-5">
               <span className="text-xs font-semibold tracking-[0.18em] text-blue-700">{step.number}</span>
@@ -57,7 +57,7 @@ const About = () => {
           ))}
         </ol>
 
-        <div className="rounded-2xl border border-blue-100 bg-blue-50/70 p-5 sm:p-6">
+        <div className="approach-example rounded-2xl border border-blue-100 bg-blue-50/70 p-5 sm:p-6">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-blue-700">One example</p>
           <h3 className="mt-2 text-lg font-semibold text-slate-900">Making Expense Tracker work offline</h3>
           <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-700">
@@ -70,7 +70,7 @@ const About = () => {
         </div>
       </section>
 
-      <section className="section-shell space-y-6" aria-labelledby="practice-title">
+      <section className="practice-section section-shell space-y-6" aria-labelledby="practice-title">
         <div className="max-w-2xl">
           <p className="section-label">In practice</p>
           <h2 id="practice-title" className="mt-2 text-2xl font-semibold text-slate-900">
@@ -104,7 +104,7 @@ const About = () => {
         </Link>
       </section>
 
-      <section className="section-shell flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between" aria-labelledby="next-title">
+      <section className="next-section section-shell flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between" aria-labelledby="next-title">
         <div className="max-w-2xl">
           <p className="section-label">What’s next</p>
           <h2 id="next-title" className="mt-2 text-2xl font-semibold text-slate-900">The work I want to do more of</h2>

@@ -10,6 +10,10 @@
   --accent: #2563eb;
 }
 
+html {
+  scroll-padding-block-start: var(--site-header-offset, 6rem);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -95,6 +99,25 @@ body {
   background: var(--bg-surface);
   padding: 1.5rem;
   box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+}
+
+.skip-link {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 60;
+  transform: translateY(calc(-100% - 1rem));
+  min-height: 44px;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
 }
 
 :where(a, button, summary):focus-visible {

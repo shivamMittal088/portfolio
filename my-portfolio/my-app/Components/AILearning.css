@@ -301,6 +301,12 @@
 
 .ai-learning-source:hover { text-decoration-color: currentColor; }
 
+.ai-learning-controls { display: flex; flex: none; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+.ai-learning-motion { display: inline-flex; min-height: 30px; align-items: center; justify-content: center; gap: 0.35rem; border: 1px solid var(--border-soft); border-radius: 7px; padding: 0.3rem 0.55rem; background: var(--bg-card); color: var(--text-muted); font-size: 0.65rem; }
+.ai-learning-motion:hover { border-color: var(--accent-line); background: var(--accent-soft); color: var(--accent-ink); opacity: 1; }
+.ai-learning-canvas[data-paused="true"] .ai-learning-packet,
+.ai-learning-canvas[data-paused="true"] .ai-learning-step::after { animation-play-state: paused; }
+
 .ai-learning-canvas[data-visible="false"] .ai-learning-packet,
 .ai-learning-canvas[data-visible="false"] .ai-learning-step {
   animation-play-state: paused;
@@ -344,7 +350,25 @@
   50% { opacity: 1; transform: translateY(2px); }
 }
 
+@media print {
+  .ai-learning-motion,
+  .ai-learning-packet {
+    display: none;
+  }
+
+  .ai-learning-step,
+  .ai-learning-step::after {
+    animation: none !important;
+  }
+
+  .ai-learning-step {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .ai-learning-motion { display: none; }
   .ai-learning-packet,
   .ai-learning-step,
   .ai-learning-step:not(:last-child)::after {

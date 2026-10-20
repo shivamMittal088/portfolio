@@ -22,9 +22,8 @@ const files = (await listFiles(outputDir)).filter((file) => file !== "sw.js").so
 const toUrl = (file) => `/${file.split(path.sep).map(encodeURIComponent).join("/")}`
 const coreFiles = files.filter((file) =>
   file.startsWith(`assets${path.sep}`)
-  || ["favicon.png", "offline.html", "shivam.jpeg", "sm_logo.svg"].includes(file),
+  || ["favicon.png", "offline.html", "shivam.jpeg", "sm_logo.svg", "gosharpener-logo.png"].includes(file),
 )
-const optionalFiles = files.filter((file) => !file.endsWith(".html") && !coreFiles.includes(file))
 
 for (const route of routes) {
   const file = route === "/" ? "index.html" : path.join(route.slice(1), "index.html")
@@ -42,10 +41,9 @@ const config = {
   cacheName: `portfolio-offline-${hash.digest("hex").slice(0, 16)}`,
   routes,
   coreUrls: [...routes, ...coreFiles.map(toUrl)],
-  optionalUrls: optionalFiles.map(toUrl),
 }
 const worker = template.replace("/* OFFLINE_CONFIG */ null", JSON.stringify(config))
 if (worker === template) throw new Error("Missing service worker config placeholder")
 await writeFile(path.join(outputDir, "sw.js"), worker)
 
-console.log(`Generated offline cache for ${routes.length} routes and ${coreFiles.length + optionalFiles.length} static files.`)
+console.log(`Generated offline cache for ${routes.length} routes and ${coreFiles.length} core files; other local media caches on demand.`)

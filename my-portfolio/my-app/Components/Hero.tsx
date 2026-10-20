@@ -5,13 +5,13 @@ import Interests from "./Interests"
 import TechnicalSkills from "./TechnicalSkills"
 import AILearning from "./AILearning"
 import WorkInMotion from "./WorkInMotion"
-import GoSharpenerLogo from "./GoSharpenerLogo"
 import RevealOnScroll from "./RevealOnScroll"
+import BuildFlow from "./BuildFlow"
 
 const highlights = [
   { text: "Building full-stack products with React, TypeScript, Node.js, and MongoDB." },
   { text: "325 data-structure challenges solved to sharpen problem-solving skills." },
-  { text: "Currently automating student data workflows at goSharpener.", goSharpener: true },
+  { text: "Currently automating student data workflows at goSharpener." },
 ]
 
 const stats = [
@@ -57,7 +57,7 @@ const Hero = () => {
   }, [])
 
   return (
-    <div className="space-y-8 sm:space-y-10">
+    <div className="home-page page-stack">
       <section
         className="hero-section section-shell overflow-hidden"
         onPointerMove={handleHeroPointerMove}
@@ -66,8 +66,8 @@ const Hero = () => {
         <div className="hero-spotlight" aria-hidden="true" />
         <div className="hero-layout grid items-center gap-8 lg:grid-cols-[1.3fr_0.7fr] lg:gap-10">
           <div className="hero-copy">
-            <p className="section-label mb-3">Shivam Mittal · Full-stack developer</p>
-            <h1 className="section-title">I take software from idea to deployment.</h1>
+            <p className="section-label mb-3">Full-stack developer · Always exploring</p>
+            <h1 className="section-title">Thoughtful software.<br /><span className="hero-title-accent">From idea to launch.</span></h1>
             <p className="mt-4 max-w-2xl text-lg font-medium leading-snug text-slate-800 sm:text-xl">
               I enjoy planning, building, and shipping complete products.
             </p>
@@ -90,10 +90,11 @@ const Hero = () => {
               </Link>
             </div>
 
+            <BuildFlow />
+
             <ul className="hero-highlights mt-6 grid gap-3 text-sm text-slate-700 sm:grid-cols-3">
               {highlights.map((highlight) => (
                 <li key={highlight.text} className="hero-highlight">
-                  {highlight.goSharpener && <GoSharpenerLogo className="go-logo-hero mb-2" alt="" />}
                   {highlight.text}
                 </li>
               ))}
@@ -164,10 +165,6 @@ const Hero = () => {
       </section>
 
       <RevealOnScroll>
-        <WorkInMotion />
-      </RevealOnScroll>
-
-      <RevealOnScroll>
         <section className="hero-stats grid gap-3 sm:grid-cols-3" aria-label="Portfolio highlights">
           {stats.map((stat) => (
             <div key={stat.label} className="stat-card section-surface">
@@ -176,6 +173,10 @@ const Hero = () => {
             </div>
           ))}
         </section>
+      </RevealOnScroll>
+
+      <RevealOnScroll>
+        <WorkInMotion />
       </RevealOnScroll>
 
       <RevealOnScroll>

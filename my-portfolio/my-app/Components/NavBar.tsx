@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
-import { Menu, Moon, Sun, X } from "lucide-react"
+import { ArrowUpRight, Download, Menu, Moon, Sun, X } from "lucide-react"
 
 type NavItem = {
   label: string
@@ -17,6 +17,40 @@ const NavBar = () => {
   const location = useLocation()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [theme, setTheme] = useState<"light" | "dark">("light")
+  const headerRef = useRef<HTMLElement>(null)
+  const menuToggleRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    if (!isMenuOpen) return
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape" || event.defaultPrevented) return
+      event.preventDefault()
+      setIsMenuOpen(false)
+      menuToggleRef.current?.focus({ preventScroll: true })
+    }
+
+    document.addEventListener("keydown", handleKeyDown)
+    return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [isMenuOpen])
+
+  useEffect(() => {
+    const header = headerRef.current
+    if (!header) return
+    // Keep native focus scrolling clear of the header, including the expanded mobile menu.
+    const updateOffset = () => {
+      document.documentElement.style.setProperty("--site-header-offset", `${Math.ceil(header.getBoundingClientRect().height) + 12}px`)
+    }
+    updateOffset()
+    const observer = window.ResizeObserver ? new ResizeObserver(updateOffset) : null
+    observer?.observe(header)
+    window.addEventListener("resize", updateOffset)
+    return () => {
+      observer?.disconnect()
+      window.removeEventListener("resize", updateOffset)
+      document.documentElement.style.removeProperty("--site-header-offset")
+    }
+  }, [])
 
   useEffect(() => {
     // The head script sets the theme before the page paints; sync the button after hydration.
@@ -63,9 +97,10 @@ const NavBar = () => {
   )
 
   return (
-    <header className="site-nav sticky top-0 z-30 bg-[var(--bg-page)] pb-4 pt-6">
+    <header ref={headerRef} className="site-nav sticky top-0 z-30 bg-[var(--bg-page)] pb-4 pt-6">
       <div className="site-nav-surface flex items-center justify-between gap-2.5 rounded-2xl border border-[var(--border-soft)] bg-[var(--bg-surface)] px-3 py-1.5 shadow-sm">
         <Link to="/" onClick={() => setIsMenuOpen(false)} aria-current={isActive("/") ? "page" : undefined} className="site-brand flex items-center gap-3 text-slate-900">
+          <span className="site-brand-mark" aria-hidden="true">sm<span>.</span></span>
           <div>
             <p className="text-xs font-semibold">Shivam Mittal</p>
             <p className="text-[0.75rem] text-slate-500">Full-stack engineer</p>
@@ -87,19 +122,20 @@ const NavBar = () => {
           <a
             href="/Resume.pdf"
             download
-            className="hidden min-h-10 items-center rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:border-blue-300 hover:text-blue-700 sm:inline-flex"
+            className="nav-resume hidden min-h-10 items-center gap-1.5 rounded-full border border-[var(--border-soft)] px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:border-blue-300 hover:text-blue-700 sm:inline-flex"
           >
-            Download CV
+            <Download size={14} aria-hidden="true" /> CV
           </a>
           <Link
             to="/contact"
             aria-current={isActive("/contact") ? "page" : undefined}
             className="site-contact-cta hidden min-h-10 items-center rounded-full bg-[var(--accent)] px-4 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-blue-700 sm:inline-flex"
           >
-            Let&apos;s talk
+            Let&apos;s talk <ArrowUpRight size={14} aria-hidden="true" />
           </Link>
 
           <button
+            ref={menuToggleRef}
             type="button"
             onClick={() => setIsMenuOpen((prev) => !prev)}
             className="site-menu-toggle inline-flex items-center gap-2 rounded-full border border-[var(--border-soft)] px-3 text-sm font-semibold text-slate-800 transition hover:border-blue-300 hover:text-blue-700 md:hidden"

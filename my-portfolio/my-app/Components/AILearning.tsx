@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { ArrowUpRight, BrainCircuit, Braces, Workflow } from "lucide-react"
+import { ArrowUpRight, BrainCircuit, Braces, Pause, Play, Workflow } from "lucide-react"
 import "./AILearning.css"
 
 const learningPath = [
@@ -35,6 +35,7 @@ const learningPath = [
 const AILearning = () => {
   const canvasRef = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(true)
+  const [paused, setPaused] = useState(false)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -59,10 +60,23 @@ const AILearning = () => {
             and how model capabilities fit into real software.
           </p>
         </div>
-        <span className="ai-learning-status"><span aria-hidden="true" /> Learning now</span>
+        <div className="ai-learning-controls">
+          <span className="ai-learning-status"><span aria-hidden="true" /> Learning now</span>
+          <button
+            type="button"
+            className="ai-learning-motion"
+            aria-label={paused ? "Play AI learning animation" : "Pause AI learning animation"}
+            aria-controls="ai-learning-canvas"
+            aria-pressed={paused}
+            onClick={() => setPaused((value) => !value)}
+          >
+            {paused ? <Play size={13} aria-hidden="true" /> : <Pause size={13} aria-hidden="true" />}
+            {paused ? "Play motion" : "Pause motion"}
+          </button>
+        </div>
       </div>
 
-      <div className="ai-learning-canvas" ref={canvasRef} data-visible={isVisible}>
+      <div id="ai-learning-canvas" className="ai-learning-canvas" ref={canvasRef} data-visible={isVisible} data-paused={paused || !isVisible}>
         <div className="ai-learning-canvas-top" aria-hidden="true">
           <span>AI LEARNING PATH</span>
           <span>UNDERSTAND <span className="ai-top-arrow">→</span> BUILD <span className="ai-top-arrow">→</span> INTEGRATE</span>

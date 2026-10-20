@@ -7,6 +7,9 @@ import seo from "./seo.config.json"
 const pageRoutes = new Set(Object.keys(seo.routes))
 
 export default defineConfig({
+  define: {
+    "import.meta.env.VITE_BUILD_YEAR": JSON.stringify(new Date().getFullYear()),
+  },
   plugins: [
     react(),
     {

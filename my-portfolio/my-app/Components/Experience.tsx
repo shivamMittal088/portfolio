@@ -49,7 +49,7 @@ const experiences: ExperienceItem[] = [
           href="https://www.advocatenaveengarg.com/"
           target="_blank"
           rel="noreferrer noopener"
-          className="font-semibold text-[var(--accent)] hover:underline"
+          className="font-semibold text-[var(--accent-ink)] hover:underline hover:opacity-100"
         >
           advocatenaveengarg.com
         </a>
@@ -66,13 +66,13 @@ const experiences: ExperienceItem[] = [
 
 const Experience = () => {
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <div className="experience-page page-stack">
       <section className="page-intro section-shell space-y-1">
         <div className="flex items-center justify-between text-[0.75rem] uppercase tracking-[0.35em] text-slate-500">
           <span className="section-label">Experience</span>
-          <span className="experience-kicker">Focused sprints</span>
+          <span className="experience-kicker">Learning through building</span>
         </div>
-        <h1 className="text-lg font-semibold text-slate-900">Shipping impactful work through focused sprints</h1>
+        <h1 className="text-lg font-semibold text-slate-900">Real work. Useful lessons.</h1>
         <p className="text-[0.875rem] text-slate-600">
           I thrive in zero-to-one stages where clarity, velocity, and thoughtful engineering decisions matter most.
         </p>

@@ -21,6 +21,8 @@ const Layout = () => {
   const navigationType = useNavigationType()
   const scrollPositions = useRef(new Map<string, { x: number; y: number }>())
   const previousLocationKey = useRef(location.key)
+  const previousPathname = useRef(pathname)
+  const mainRef = useRef<HTMLElement>(null)
 
   useLayoutEffect(() => {
     // Keep scroll offsets by history entry so Back/Forward can restore them.
@@ -30,13 +32,21 @@ const Layout = () => {
       previousLocationKey.current = location.key
     }
 
+    if (previousPathname.current !== pathname) {
+      // Announce the new page without undoing Back/Forward scroll restoration.
+      const target = mainRef.current?.querySelector<HTMLElement>("h1") ?? mainRef.current
+      target?.setAttribute("tabindex", "-1")
+      target?.focus({ preventScroll: true })
+      previousPathname.current = pathname
+    }
+
     const savePosition = () => {
       scrollPositions.current.set(location.key, { x: window.scrollX, y: window.scrollY })
     }
 
     window.addEventListener("scroll", savePosition, { passive: true })
     return () => window.removeEventListener("scroll", savePosition)
-  }, [location.key, navigationType])
+  }, [location.key, navigationType, pathname])
 
   useEffect(() => {
     const route = pathname.replace(/\/+$/, "") || "/"
@@ -57,6 +67,17 @@ const Layout = () => {
 
   return (
     <div className="site-frame min-h-screen bg-[var(--bg-page)] text-[var(--text-primary)]">
+      <a
+        href="#main-content"
+        className="skip-link"
+        onClick={(event) => {
+          event.preventDefault()
+          mainRef.current?.focus({ preventScroll: true })
+          mainRef.current?.scrollIntoView({ block: "start" })
+        }}
+      >
+        Skip to main content
+      </a>
       <div className="site-content mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 sm:px-6 lg:px-8">
         <NavBar />
 
@@ -72,7 +93,7 @@ const Layout = () => {
         )}
 
         {/* Main content area */}
-        <main key={pathname} className="site-main page-enter flex-1 space-y-8 pb-16 pt-8 sm:space-y-10">
+        <main key={pathname} ref={mainRef} className="site-main page-enter flex-1" id="main-content" tabIndex={-1}>
           <Outlet />
         </main>
 
