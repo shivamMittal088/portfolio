@@ -1,35 +1,35 @@
 /* The same neutral surfaces and violet accents carry through both themes. */
 :root {
   color-scheme: light;
-  --bg-page: #f6f5f8;
+  --bg-page: #eef0f5;
   --bg-surface: #ffffff;
-  --bg-card: #f8f7fb;
-  --border-soft: #e3e0e9;
-  --text-primary: #25212f;
-  --text-muted: #70697e;
-  --accent: #7655d8;
-  --accent-strong: #6341bf;
-  --accent-ink: #7050bb;
-  --accent-soft: #f0ecfa;
-  --accent-line: #d9cff0;
-  --nav-surface: rgba(255, 255, 255, 0.88);
-  --shadow-soft: 0 4px 20px rgba(40, 30, 65, 0.025);
+  --bg-card: #f5f5fa;
+  --border-soft: #ced2df;
+  --text-primary: #231e33;
+  --text-muted: #59566b;
+  --accent: #7049d0;
+  --accent-strong: #5934b5;
+  --accent-ink: #633bb8;
+  --accent-soft: #eee8fb;
+  --accent-line: #c7b7e8;
+  --nav-surface: rgba(255, 255, 255, 0.96);
+  --shadow-soft: 0 2px 4px rgba(31, 27, 49, 0.035), 0 12px 30px rgba(31, 27, 49, 0.065);
 }
 html[data-theme="dark"] {
   color-scheme: dark;
-  --bg-page: #101014;
-  --bg-surface: #19191f;
-  --bg-card: #202027;
-  --border-soft: #34313e;
-  --text-primary: #f0edf7;
-  --text-muted: #aaa4b9;
-  --accent: #7655d8;
-  --accent-strong: #6843c6;
-  --accent-ink: #c2adfa;
-  --accent-soft: #2a243b;
-  --accent-line: #4c3f69;
-  --nav-surface: rgba(25, 25, 31, 0.9);
-  --shadow-soft: none;
+  --bg-page: #0d1018;
+  --bg-surface: #171c28;
+  --bg-card: #202637;
+  --border-soft: #3a4358;
+  --text-primary: #f3f3fc;
+  --text-muted: #b4bbd0;
+  --accent: #805cda;
+  --accent-strong: #7048cc;
+  --accent-ink: #c9b5ff;
+  --accent-soft: #2c2845;
+  --accent-line: #5d4b80;
+  --nav-surface: rgba(23, 28, 40, 0.96);
+  --shadow-soft: inset 0 1px 0 rgba(255, 255, 255, 0.035), 0 3px 8px rgba(0, 0, 0, 0.18), 0 14px 32px rgba(0, 0, 0, 0.22);
 }
 
 /* Bridge content utility colors to the shared theme. Keep demo canvases independent. */

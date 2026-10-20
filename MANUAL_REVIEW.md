@@ -1,8 +1,12 @@
 # Website manual review — 20 October 2026
 
-Reviewed the local production website at `http://127.0.0.1:4185` using browser-driven interactions and visual inspection of fresh screenshots. Every public page was included. One new accessibility defect was confirmed; the tested navigation, forms, galleries, walkthroughs, downloads, and offline flows passed.
+Reviewed the local production website at `http://127.0.0.1:4185` using browser-driven interactions and visual inspection of fresh screenshots. Every public page was included. The accessibility defect found in this review has now been fixed as part of the dark-theme improvements; the original finding and evidence are retained below.
 
-## Finding
+## Fix verification — 20 October 2026
+
+Dark-mode case-study summaries now use the theme's lavender foreground when hovered or visibly focused. All three projects passed hover, expanded-state, and keyboard-focus checks in Chrome and Edge, with contrast above 4.5:1. The refreshed dark theme also passed all five routes at 1440, 768, 390, and 320 px in Chrome and at desktop/mobile widths in Edge, with no page errors. Gallery controls, theme persistence, light-palette regression checks, and short landscape navigation passed. Evidence: [dark-theme results](.tmp/dark-theme/results.json).
+
+## Original finding — resolved
 
 ### [P2] Case-study hover labels lose contrast in dark mode
 
