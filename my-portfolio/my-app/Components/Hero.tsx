@@ -1,6 +1,6 @@
 import { useEffect, useRef, type PointerEvent } from "react"
 import { Link } from "react-router-dom"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, ChartNoAxesCombined, Code2, Radio, Sheet, Sparkles, WifiOff } from "lucide-react"
 import Interests from "./Interests"
 import TechnicalSkills from "./TechnicalSkills"
 import AILearning from "./AILearning"
@@ -21,6 +21,13 @@ const stats = [
 ]
 
 const featuredStack = ["React", "TypeScript", "Node.js", "MongoDB"]
+
+const capabilities = [
+  { name: "WebSockets", detail: "Real-time experiences", icon: Radio },
+  { name: "LLM", detail: "AI-assisted workflows", icon: Sparkles },
+  { name: "PWA", detail: "Offline availability", icon: WifiOff },
+  { name: "Advanced Excel", detail: "Data & automation", icon: Sheet },
+]
 
 const handleHeroPointerMove = (event: PointerEvent<HTMLElement>) => {
   if (event.pointerType !== "mouse") return
@@ -101,7 +108,11 @@ const Hero = () => {
               event.currentTarget.style.setProperty("--tilt-y", "0deg")
             }}
           >
-            <aside className="hero-portrait">
+            <aside className="hero-portrait" aria-label="About Shivam and his toolkit">
+              <div className="hero-profile-header">
+                <span><Code2 size={15} aria-hidden="true" /> Behind the build</span>
+                <span className="hero-profile-mark" aria-hidden="true">SM<span>✳</span></span>
+              </div>
               <div className="hero-profile-top">
                 <div ref={photoFrameRef} className="hero-photo-frame">
                   <img
@@ -109,24 +120,40 @@ const Hero = () => {
                     src="/shivam.jpeg"
                     alt="Shivam Mittal"
                     className="hero-photo"
+                    width={746}
+                    height={1328}
                     onLoad={() => photoFrameRef.current?.removeAttribute("data-loading")}
                     onError={() => photoFrameRef.current?.removeAttribute("data-loading")}
                   />
                 </div>
                 <div className="hero-profile-copy">
-                  <span className="hero-profile-monogram" aria-hidden="true">SM.</span>
-                  <p className="hero-profile-label">The person behind the code</p>
-                  <p className="hero-profile-name">Shivam<br />Mittal<span aria-hidden="true">.</span></p>
+                  <h2 className="hero-profile-name">Shivam Mittal<span aria-hidden="true">.</span></h2>
                   <p className="hero-profile-role">Full-stack developer</p>
+                  <p className="hero-profile-note">Ideas → useful products</p>
                 </div>
+              </div>
+              <div className="hero-capabilities">
+                <p className="hero-capabilities-label">In my toolkit</p>
+                <ul className="hero-capability-grid">
+                  {capabilities.map(({ name, detail, icon: Icon }) => (
+                    <li key={name} className="hero-capability">
+                      <Icon size={17} strokeWidth={1.7} aria-hidden="true" />
+                      <span><strong>{name}</strong><span>{detail}</span></span>
+                    </li>
+                  ))}
+                </ul>
               </div>
               <Link to="/projects" className="hero-featured-build">
                 <span className="hero-build-topline">
-                  <span className="hero-build-kicker"><span className="hero-build-dot" aria-hidden="true" /> Featured project</span>
-                  <ArrowUpRight size={18} aria-hidden="true" />
+                  <span className="hero-build-kicker">Featured build</span>
+                  <span className="hero-build-offline"><span aria-hidden="true" /> Offline-ready</span>
                 </span>
-                <span className="hero-build-title">Expense Tracker</span>
-                <span className="hero-build-description">Spending analytics, offline sync, and report exports in one full-stack app.</span>
+                <span className="hero-build-heading">
+                  <span className="hero-build-icon"><ChartNoAxesCombined size={19} strokeWidth={1.7} aria-hidden="true" /></span>
+                  <span className="hero-build-title">Expense Tracker</span>
+                  <ArrowUpRight className="cta-arrow" size={19} aria-hidden="true" />
+                </span>
+                <span className="hero-build-description">Track spending. Sync offline. Export reports.</span>
                 <span className="hero-build-stack" aria-label="Built with">
                   {featuredStack.map((chip) => <span key={chip} className="hero-build-chip">{chip}</span>)}
                 </span>

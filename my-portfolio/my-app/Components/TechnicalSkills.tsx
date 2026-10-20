@@ -1,33 +1,41 @@
-type SkillItem = {
-  title: string
-  items: string[]
-  focus: string
-}
+import { Braces, Database, GitBranch, Layers3, Network, Sparkles } from "lucide-react"
+import "./TechnicalSkills.css"
 
-const skills: SkillItem[] = [
+const skills = [
   {
-    title: "Programming Languages",
-    focus: "Daily drivers",
+    title: "Languages",
+    focus: "The foundations",
+    icon: Braces,
     items: ["JavaScript", "TypeScript", "C++", "Python", "OOP"],
   },
   {
-    title: "Web Development",
-    focus: "Frontend + backend",
-    items: ["React", "Tailwind", "Node.js", "Express", "REST", "Redux" ,"WebSockets" ,"Redis" ,"Docker" ,"Nginx"],
+    title: "Web development",
+    focus: "From interface to API",
+    icon: Layers3,
+    items: ["React", "Tailwind", "Redux", "Node.js", "Express", "REST", "WebSockets", "PWA (offline availability)"],
   },
   {
-    title: "Databases",
-    focus: "Persistence",
-    items: ["MongoDB", "MySQL"],
+    title: "Data & infrastructure",
+    focus: "Store, cache & deploy",
+    icon: Database,
+    items: ["MongoDB", "MySQL", "Redis", "Docker", "Nginx"],
   },
   {
-    title: "Tools & Platforms",
-    focus: "Productivity",
+    title: "AI & productivity",
+    focus: "Work smarter",
+    icon: Sparkles,
+    items: ["LLM", "Advanced Excel"],
+  },
+  {
+    title: "Developer tools",
+    focus: "The everyday essentials",
+    icon: GitBranch,
     items: ["Git", "GitHub", "Postman", "VS Code"],
   },
   {
-    title: "Concepts",
-    focus: "Architecture",
+    title: "Engineering concepts",
+    focus: "How the pieces connect",
+    icon: Network,
     items: [
       "DSA",
       "Authentication",
@@ -41,35 +49,36 @@ const skills: SkillItem[] = [
   },
 ]
 
-const TechnicalSkills = () => {
-  return (
-    <section className="skills-section section-shell space-y-4">
-      <div className="flex flex-wrap items-end justify-between gap-2">
-        <div>
-          <p className="section-label">Stack</p>
-          <h2 className="text-xl font-semibold text-slate-900">Technical Skills</h2>
-        </div>
-        <p className="text-[0.875rem] text-slate-500">Fast scan of the tools I rely on.</p>
-      </div>
+const highlightedSkills = new Set(["WebSockets", "PWA (offline availability)", "LLM", "Advanced Excel"])
 
-      <div className="content-grid-shell rounded-3xl border border-[var(--border-soft)] bg-[var(--bg-surface)] p-3">
-        <ul className="grid gap-3 sm:grid-cols-2">
-          {skills.map((skill) => (
-            <li
-              key={skill.title}
-              className="detail-card skill-card rounded-xl border border-[var(--border-soft)] bg-white/80 px-3 py-2.5 shadow-[0_4px_12px_rgba(15,23,42,0.04)]"
-            >
-              <p className="text-sm font-semibold text-slate-900">{skill.title}</p>
-              <p className="text-[0.75rem] uppercase tracking-[0.3em] text-slate-500">{skill.focus}</p>
-              <p className="mt-1 text-[0.875rem] leading-relaxed text-slate-600">
-                {skill.items.join(" · ")}
-              </p>
-            </li>
-          ))}
-        </ul>
+const TechnicalSkills = () => (
+  <section className="skills-section section-shell" aria-labelledby="technical-skills-title">
+    <div className="skills-heading">
+      <div>
+        <p className="section-label">The toolkit</p>
+        <h2 id="technical-skills-title">Technical Skills</h2>
       </div>
-    </section>
-  )
-}
+      <p className="skills-intro">From real-time apps to offline experiences.<br />The tools I build with.</p>
+    </div>
+
+    <ul className="skills-grid">
+      {skills.map(({ title, focus, icon: Icon, items }, index) => (
+        <li key={title} className="toolkit-card">
+          <div className="toolkit-card-top">
+            <span className="toolkit-icon"><Icon size={20} strokeWidth={1.6} aria-hidden="true" /></span>
+            <span className="toolkit-number" aria-hidden="true">0{index + 1}</span>
+          </div>
+          <h3>{title}</h3>
+          <p className="toolkit-focus">{focus}</p>
+          <ul className="toolkit-tags" aria-label={title}>
+            {items.map((item) => (
+              <li key={item} className={highlightedSkills.has(item) ? "toolkit-tag toolkit-tag-accent" : "toolkit-tag"}>{item}</li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ul>
+  </section>
+)
 
 export default TechnicalSkills
