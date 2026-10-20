@@ -1,0 +1,64 @@
+const config = /* OFFLINE_CONFIG */ null
+const cachePrefix = "portfolio-offline-"
+const routeSet = new Set(config.routes)
+
+const routePath = (url) => url.pathname.replace(/\/index\.html$/, "").replace(/\/+$/, "") || "/"
+
+self.addEventListener("install", (event) => {
+  event.waitUntil((async () => {
+    const cache = await caches.open(config.cacheName)
+    await Promise.all(config.coreUrls.map(async (url) => {
+      const response = await fetch(url, {
+        cache: "reload",
+        headers: routeSet.has(url) ? { Accept: "text/html" } : undefined,
+      })
+      if (!response.ok) throw new Error(`Could not cache ${url}: ${response.status}`)
+      await cache.put(url, response)
+    }))
+    await Promise.allSettled(config.optionalUrls.map(async (url) => {
+      const response = await fetch(url, { cache: "reload" })
+      if (response.ok) await cache.put(url, response)
+    }))
+    await self.skipWaiting()
+  })())
+})
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil((async () => {
+    const names = await caches.keys()
+    await Promise.all(names
+      .filter((name) => name.startsWith(cachePrefix) && name !== config.cacheName)
+      .map((name) => caches.delete(name)))
+    await self.clients.claim()
+  })())
+})
+
+self.addEventListener("fetch", (event) => {
+  const { request } = event
+  const url = new URL(request.url)
+  if (request.method !== "GET" || url.origin !== self.location.origin || url.pathname === "/sw.js") return
+
+  if (request.mode === "navigate") {
+    event.respondWith((async () => {
+      const cache = await caches.open(config.cacheName)
+      const route = routePath(url)
+      try {
+        const response = await fetch(request)
+        if (response.ok && routeSet.has(route)) await cache.put(route, response.clone())
+        return response
+      } catch {
+        return (await cache.match(route)) || (await cache.match("/offline.html"))
+      }
+    })())
+    return
+  }
+
+  event.respondWith((async () => {
+    const cache = await caches.open(config.cacheName)
+    const cached = await cache.match(request)
+    if (cached) return cached
+    const response = await fetch(request)
+    if (response.ok) await cache.put(request, response.clone())
+    return response
+  })())
+})

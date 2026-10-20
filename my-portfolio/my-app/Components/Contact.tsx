@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react"
 import { ArrowUpRight, Check, ChevronDown, Copy, Mail, Send, Code2 } from "lucide-react"
 import { GithubIcon, LinkedinIcon } from "./BrandIcons"
 import "./Contact.css"
+import { useOnlineStatus } from "../src/useOnlineStatus"
 
 const email = "shivamofficialsm@gmail.com"
 const formEndpoint = "https://formsubmit.co/ajax/" + email
@@ -26,6 +27,7 @@ const profiles = [
 type FormStatus = "idle" | "sending" | "success" | "activation" | "error"
 
 const Contact = () => {
+  const isOnline = useOnlineStatus()
   const [copied, setCopied] = useState(false)
   const [copyError, setCopyError] = useState(false)
   const [formStatus, setFormStatus] = useState<FormStatus>("idle")
@@ -43,6 +45,7 @@ const Contact = () => {
 
   const submitMessage = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    if (!isOnline) return
     const form = event.currentTarget
     const formData = new FormData(form)
 
@@ -150,10 +153,11 @@ const Contact = () => {
           </div>
           <div className="contact-form-footer">
             <p>Your message is sent through <a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener noreferrer">FormSubmit</a> to my email.</p>
-            <button type="submit" disabled={formStatus === "sending"}>
+            <button type="submit" disabled={!isOnline || formStatus === "sending"}>
               <Send size={17} aria-hidden="true" /> {formStatus === "sending" ? "Sending…" : "Send message"}
             </button>
           </div>
+          {!isOnline && <p className="contact-form-status contact-form-error" role="status">You&rsquo;re offline. Reconnect to send your message.</p>}
           {formStatus === "success" && <p className="contact-form-status contact-form-success" role="status">Your message was submitted. Thanks for reaching out!</p>}
           {formStatus === "activation" && <p className="contact-form-status contact-form-error" role="alert">The contact form is awaiting email verification. Please use the email options above or copy my address for now.</p>}
           {formStatus === "error" && <p className="contact-form-status contact-form-error" role="alert">The form couldn&apos;t send your message. Please use the email options above or copy my address.</p>}
