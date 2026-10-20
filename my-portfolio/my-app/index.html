@@ -4,6 +4,16 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg" href="/sm_logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      try {
+        const savedTheme = localStorage.getItem("portfolio-theme")
+        document.documentElement.dataset.theme = savedTheme === "light" || savedTheme === "dark"
+          ? savedTheme
+          : matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+      } catch {
+        document.documentElement.dataset.theme = "light"
+      }
+    </script>
     <title>Shivam Mittal | Full-Stack Developer</title>
     <meta name="description" content="Explore full-stack projects, experience, and technical skills from Shivam Mittal, a developer building thoughtful web products with React, TypeScript, and Node.js." />
     <meta name="robots" content="index, follow" />

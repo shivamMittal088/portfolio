@@ -1,4 +1,5 @@
-import { Calendar, Github, ExternalLink } from "lucide-react";
+import { Calendar, ExternalLink } from "lucide-react";
+import { GithubIcon } from "./BrandIcons";
 
 export type ProjectCardProps = {
   title: string;
@@ -84,7 +85,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 rel="noreferrer"
                 className="flex items-center gap-1 text-blue-600 hover:underline"
               >
-                <Github size={14} />
+                <GithubIcon size={14} className="text-[#24292f]" />
                 <span>Frontend</span>
               </a>
             )}
@@ -96,7 +97,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 rel="noreferrer"
                 className="flex items-center gap-1 text-blue-600 hover:underline"
               >
-                <Github size={14} />
+                <GithubIcon size={14} className="text-[#24292f]" />
                 <span>Backend</span>
               </a>
             )}

@@ -8,11 +8,11 @@
   "routes": {
     "/": {
       "title": "Shivam Mittal | Full-Stack Developer",
-      "description": "Explore full-stack projects, experience, and technical skills from Shivam Mittal, a developer building thoughtful web products with React, TypeScript, and Node.js."
+      "description": "Explore the projects and experience of Shivam Mittal, a full-stack developer who takes software from planning through build and deployment."
     },
     "/about": {
       "title": "About Shivam Mittal | Engineering Approach",
-      "description": "Learn how Shivam Mittal approaches full-stack engineering, from product planning and system design to reliable releases."
+      "description": "Meet Shivam Mittal and learn how he breaks down unfamiliar challenges, builds full-stack products, and takes ideas from planning to deployment."
     },
     "/projects": {
       "title": "Projects & Case Studies | Shivam Mittal",

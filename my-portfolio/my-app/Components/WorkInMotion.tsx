@@ -28,7 +28,7 @@ const scenes: { id: Scene; number: string; label: string; description: string }[
     id: "connection",
     number: "03",
     label: "DevTinder",
-    description: "A connection opens the way to a real-time conversation.",
+    description: "Connections become live, two-way conversations through WebSockets.",
   },
 ]
 

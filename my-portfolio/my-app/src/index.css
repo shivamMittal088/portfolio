@@ -145,6 +145,8 @@ button, summary {
   animation: rise-in 500ms cubic-bezier(0.22, 1, 0.36, 1) 250ms both;
 }
 
+.scroll-reveal .hero-stats { animation: none; }
+
 .cta-arrow {
   transition: transform 200ms ease;
 }
@@ -185,6 +187,8 @@ button, summary {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hero-portrait-tilt { transform: none; transition: none; }
+  .hero-spotlight { display: none; }
   :where(a, button, summary),
   .project-card,
   .project-preview,
@@ -201,6 +205,23 @@ button, summary {
   .gallery-panel {
     animation: none !important;
   }
+}
+
+@media print {
+  .page-enter,
+  .hero-copy,
+  .hero-portrait,
+  .hero-stats,
+  .scroll-reveal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .hero-spotlight { display: none; }
+  .hero-portrait-tilt { transform: none; transition: none; }
 }
 
 .highlight-font {

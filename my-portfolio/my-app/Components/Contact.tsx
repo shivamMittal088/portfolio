@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react"
-import { ArrowUpRight, Check, ChevronDown, Copy, Github, Linkedin, Mail, Send, Code2 } from "lucide-react"
+import { ArrowUpRight, Check, ChevronDown, Copy, Mail, Send, Code2 } from "lucide-react"
+import { GithubIcon, LinkedinIcon } from "./BrandIcons"
 import "./Contact.css"
 
 const email = "shivamofficialsm@gmail.com"
@@ -12,7 +13,7 @@ const profiles = [
     label: "GitHub",
     detail: "Projects and source code",
     href: "https://github.com/shivamMittal088",
-    icon: Github,
+    icon: GithubIcon,
   },
   {
     label: "LeetCode",
@@ -80,21 +81,22 @@ const Contact = () => {
           Have a role, a project, or an idea to discuss? Tell me what you&apos;re working on and how I can help.
         </p>
         <div className="contact-intro-actions">
-          <details className="contact-email-options">
-            <summary className="contact-primary-action">
-              <Mail size={18} aria-hidden="true" /> Email Shivam <ChevronDown size={17} aria-hidden="true" />
-            </summary>
-            <div className="contact-email-menu">
-              <a href={gmailCompose} target="_blank" rel="noopener noreferrer">Open Gmail <ArrowUpRight size={15} aria-hidden="true" /></a>
-              <a href={outlookCompose} target="_blank" rel="noopener noreferrer">Open Outlook <ArrowUpRight size={15} aria-hidden="true" /></a>
-            </div>
-          </details>
+          <a href={`mailto:${email}`} className="contact-primary-action">
+            <Mail size={18} aria-hidden="true" /> Email Shivam
+          </a>
           <button className="contact-copy-action" type="button" onClick={copyEmail}>
             {copied ? <Check size={17} aria-hidden="true" /> : <Copy size={17} aria-hidden="true" />}
             {copied ? "Copied!" : "Copy email"}
           </button>
         </div>
         <p className="contact-email-address">{email}</p>
+        <details className="contact-email-options">
+          <summary>Use Gmail or Outlook <ChevronDown size={15} aria-hidden="true" /></summary>
+          <div className="contact-email-menu">
+            <a href={gmailCompose} target="_blank" rel="noopener noreferrer">Open Gmail <ArrowUpRight size={15} aria-hidden="true" /></a>
+            <a href={outlookCompose} target="_blank" rel="noopener noreferrer">Open Outlook <ArrowUpRight size={15} aria-hidden="true" /></a>
+          </div>
+        </details>
         {copyError && <p className="contact-copy-error" role="status">Copy unavailable. You can select the email address above.</p>}
       </section>
 
@@ -111,7 +113,7 @@ const Contact = () => {
           <h2 id="contact-linkedin-title">Prefer LinkedIn?</h2>
           <p>Send a short note about the opportunity or project and I&apos;ll take it from there.</p>
           <a href="https://www.linkedin.com/in/shivammittal088" target="_blank" rel="noopener noreferrer">
-            <Linkedin size={18} aria-hidden="true" /> Connect on LinkedIn <ArrowUpRight size={16} aria-hidden="true" />
+            <LinkedinIcon size={18} className="text-[#0A66C2]" /> Connect on LinkedIn <ArrowUpRight size={16} aria-hidden="true" />
           </a>
         </section>
       </div>
@@ -166,7 +168,7 @@ const Contact = () => {
         <div className="contact-profile-links">
           {profiles.map(({ label, detail, href, icon: Icon }) => (
             <a key={label} href={href} target="_blank" rel="noopener noreferrer">
-              <Icon size={18} aria-hidden="true" />
+              <Icon size={18} className={label === "GitHub" ? "brand-github" : undefined} aria-hidden="true" />
               <span><strong>{label}</strong><small>{detail}</small></span>
               <ArrowUpRight size={16} aria-hidden="true" />
             </a>

@@ -1,22 +1,22 @@
-import { Github, Linkedin, Mail } from "lucide-react"
+import { EmailIcon, GithubIcon, LinkedinIcon } from "./BrandIcons"
 
 const socials = [
   {
     label: "GitHub",
     href: "https://github.com/shivamMittal088",
-    icon: Github,
+    icon: GithubIcon,
     hint: "View code"
   },
   {
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/shivammittal088",
-    icon: Linkedin,
+    icon: LinkedinIcon,
     hint: "Say hi"
   },
   {
     label: "Email",
     href: "mailto:shivamofficialsm@gmail.com",
-    icon: Mail,
+    icon: EmailIcon,
     hint: "Write"
   }
 ]
@@ -46,7 +46,7 @@ const Footer = () => {
                     target={social.href.startsWith("http") ? "_blank" : undefined}
                     className="footer-link group flex flex-col items-center gap-1 rounded-xl border border-[var(--border-soft)] bg-[var(--bg-card)] px-2.5 py-2 text-slate-900"
                   >
-                    <Icon size={18} />
+                    <Icon size={19} className={social.label === "LinkedIn" ? "text-[#0A66C2]" : "text-white"} />
                     <span className="text-[0.75rem] uppercase tracking-[0.35em] text-slate-500">
                       {social.hint}
                     </span>

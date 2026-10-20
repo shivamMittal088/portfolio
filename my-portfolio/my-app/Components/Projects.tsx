@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react"
 import { createPortal } from "react-dom"
 import {
   Calendar,
-  Github,
   ExternalLink,
   X,
   ChevronLeft,
@@ -13,6 +12,7 @@ import {
   User,
   FileDown,
 } from "lucide-react"
+import { GithubIcon } from "./BrandIcons"
 
 type ScreenshotSection = {
   title: string
@@ -39,9 +39,12 @@ type Project = {
   description: string
   caseStudy: CaseStudy
   highlights: string[]
+  visibleHighlightCount?: number
   techStack: string[]
   images: ProjectImage[]
   previewMode?: "default" | "portrait"
+  previewImageIndex?: number
+  previewSecondaryIndex?: number
   screenshotSections?: ScreenshotSection[]
   frontendGithub?: string
   backendGithub?: string
@@ -62,11 +65,13 @@ const featuredProjects: Project[] = [
     title: "Expense Tracker",
     period: "Jan 2026 – Feb 2026",
     previewMode: "portrait",
+    previewImageIndex: 2,
+    previewSecondaryIndex: 10,
     images: [
       { src: "expenseTracker/localhost_5173_exports(iPhone 12 Pro).png", alt: "Expense Tracker report export screen on a phone" },
       { src: "expenseTracker/www.track-expense.com_(iPhone 12 Pro).png", alt: "Expense Tracker home screen on a phone" },
-      { src: "expenseTracker/www.track-expense.com_(iPhone 12 Pro) (1).png", alt: "Expense Tracker home quick actions, first view" },
-      { src: "expenseTracker/www.track-expense.com_(iPhone 12 Pro) (2).png", alt: "Expense Tracker home quick actions, second view" },
+      { src: "expenseTracker/www.track-expense.com_(iPhone 12 Pro) (1).png", alt: "Expense Tracker spending trends and analytics screen" },
+      { src: "expenseTracker/www.track-expense.com_(iPhone 12 Pro) (2).png", alt: "Expense Tracker spending breakdown by category and payment method" },
       { src: "expenseTracker/www.track-expense.com_(iPhone 12 Pro) (3).png", alt: "Expense Tracker home quick actions, third view" },
       { src: "expenseTracker/www.track-expense.com_analytics(iPhone 12 Pro).png", alt: "Expense Tracker analytics overview on a phone" },
       { src: "expenseTracker/www.track-expense.com_analytics(iPhone 12 Pro) (1).png", alt: "Expense Tracker analytics detail on a phone" },
@@ -76,13 +81,14 @@ const featuredProjects: Project[] = [
       { src: "expenseTracker/www.track-expense.com_transactions(iPhone 12 Pro).png", alt: "Expense Tracker transactions screen on a phone" },
     ],
     screenshotSections: [
-      { title: "Home · Quick Actions", imageIndexes: [1, 2, 3, 4] },
-      { title: "Analytics · Transactions", imageIndexes: [5, 6, 10] },
+      { title: "Home · Quick Actions", imageIndexes: [1, 4] },
+      { title: "Analytics · Transactions", imageIndexes: [2, 3, 5, 6, 10] },
       { title: "Profile · Public View", imageIndexes: [7, 8, 9] },
       { title: "Export", imageIndexes: [0] },
     ],
     description:
       "Full-stack expense intelligence platform with hardened authentication, logging, and analytics-first dashboards.",
+    visibleHighlightCount: 5,
     caseStudy: {
       problem:
         "Users needed a single place to track spending, inspect monthly patterns, and export structured reports without manual spreadsheet work.",
@@ -110,11 +116,13 @@ const featuredProjects: Project[] = [
       ],
     },
     highlights: [
-      "Built secure authentication, API error tracking, and centralized Axiom logging.",
-      "Implemented expense history, recurring payments, advanced filters, and edit/restore flows.",
       "Created spending analytics with payment breakdowns, trends, and a calendar heatmap.",
       "Added offline expense storage with IndexedDB and sync after reconnecting.",
       "Generated formatted Excel reports for monthly and custom date ranges.",
+      "Added Axiom observability for centralized API request and error logging.",
+      "Improved efficiency with debouncing, lazy loading, and cursor-based pagination.",
+      "Built secure authentication with JWTs in HTTP-only cookies.",
+      "Implemented expense history, recurring payments, advanced filters, and edit/restore flows.",
     ],
     techStack: [
       "MERN",
@@ -140,7 +148,7 @@ const featuredProjects: Project[] = [
       { src: "devTinder/WebChat.png", alt: "DevTinder one-to-one chat screen" },
     ],
     description:
-      "Developer matchmaking platform with curated feeds, profile discovery, and real-time request management.",
+      "Developer matchmaking platform with real-time, bidirectional WebSocket chat, deployed on AWS EC2 behind NGINX.",
     caseStudy: {
       problem:
         "Developers needed a focused way to discover relevant peers, connect intentionally, and manage requests without noisy social graph behavior.",
@@ -149,6 +157,7 @@ const featuredProjects: Project[] = [
       techChoices: [
         "JWT + HTTP-only cookies for secure session handling.",
         "MongoDB for flexible profile and request models.",
+        "Socket.IO for bidirectional, real-time messaging between connected developers.",
         "AWS EC2 + NGINX + PM2 for stable production runtime.",
       ],
       challenges: [
@@ -167,13 +176,13 @@ const featuredProjects: Project[] = [
       ],
     },
     highlights: [
+      "Built bidirectional, real-time one-to-one chat with WebSockets (Socket.IO).",
+      "Deployed on AWS EC2 with NGINX as a reverse proxy and PM2 for process management.",
       "Implemented JWT sign-in with HTTP-only cookies, input validation, and bcrypt password hashing.",
       "Built developer profiles and a discovery feed centered on skills and relevant peers.",
       "Added connection requests with accept/reject states and mutual connections.",
-      "Built one-to-one real-time chat for connected developers using Socket.IO.",
-      "Deployed the app on AWS EC2 with NGINX, PM2, and MongoDB Atlas.",
     ],
-    techStack: ["MongoDB", "Express", "React", "Node.js", "AWS", "JWT"],
+    techStack: ["MongoDB", "Express", "React", "Node.js", "Socket.IO", "AWS EC2", "NGINX", "JWT"],
     frontendGithub: "https://github.com/shivamMittal088/devFrontend",
     backendGithub: "https://github.com/shivamMittal088/DevBackend",
   },
@@ -274,10 +283,10 @@ const Projects = () => {
     return ImageIcon
   }
 
-  const openGallery = (project: Project, indexes = project.images.map((_, index) => index), sectionTitle: string | null = null) => {
+  const openGallery = (project: Project, indexes = project.images.map((_, index) => index), sectionTitle: string | null = null, startIndex = indexes[0]) => {
     setGalleryProject(project)
     setGalleryIndexes(indexes)
-    setGalleryIndex(indexes[0])
+    setGalleryIndex(startIndex)
     setGallerySectionTitle(sectionTitle)
   }
 
@@ -374,10 +383,10 @@ const Projects = () => {
               <section className="project-highlight-panel order-2 rounded-2xl bg-[var(--bg-card)] p-5 lg:order-2">
                 <header className="flex items-center justify-between text-[0.75rem] uppercase tracking-[0.35em] text-slate-500">
                   <span>Key Highlights</span>
-                  <span>{Math.min(project.highlights.length, 5)} highlights</span>
+                  <span>{Math.min(project.highlights.length, project.visibleHighlightCount ?? 3)} highlights</span>
                 </header>
                 <ul className="mt-3 space-y-2 text-[0.875rem] text-slate-700">
-                  {project.highlights.slice(0, 5).map((highlight) => (
+                  {project.highlights.slice(0, project.visibleHighlightCount ?? 3).map((highlight) => (
                     <li key={highlight} className="flex items-start gap-3">
                       <span className="mt-1 h-2 w-2 rounded-full bg-[var(--accent)]" />
                       <span>{highlight}</span>
@@ -399,16 +408,33 @@ const Projects = () => {
               <section className="order-1 space-y-3">
                 <div className="project-media rounded-2xl border border-zinc-800 bg-zinc-950 p-3">
                   <div className="project-media-screen rounded-xl border border-zinc-800 bg-black p-2">
-                    <div className="flex h-56 items-center justify-center sm:h-72">
-                      <img
-                        src={`/${project.images[0].src}`}
-                        alt={project.images[0].alt}
-                        className={`project-preview h-full rounded-xl border-2 border-slate-900 bg-black p-1 object-contain ${
-                          project.previewMode === "portrait" ? "w-auto max-w-[8.5rem] sm:max-w-[9.5rem]" : "w-full max-w-full"
-                        }`}
-                        loading="lazy"
-                      />
-                    </div>
+                    <button
+                      type="button"
+                      onClick={() => openGallery(project, undefined, null, project.previewImageIndex ?? 0)}
+                      className={`project-preview-trigger ${project.previewMode === "portrait" ? "project-preview-trigger-portrait" : "project-preview-trigger-landscape"}`}
+                      aria-label={`Open ${project.title} screenshot gallery`}
+                    >
+                      {project.previewMode === "portrait" ? (
+                        <>
+                          {project.previewSecondaryIndex !== undefined && (
+                            <span className="project-device project-device-secondary" aria-hidden="true">
+                              <img src={`/${project.images[project.previewSecondaryIndex].src}`} alt="" loading="lazy" />
+                            </span>
+                          )}
+                          <span className="project-device project-device-primary">
+                            <img src={`/${project.images[project.previewImageIndex ?? 0].src}`} alt="" loading="lazy" />
+                          </span>
+                        </>
+                      ) : (
+                        <img
+                          src={`/${project.images[project.previewImageIndex ?? 0].src}`}
+                          alt=""
+                          className="project-preview h-full w-full rounded-xl border-2 border-slate-900 bg-black p-1 object-contain"
+                          loading="lazy"
+                        />
+                      )}
+                      <span className="project-preview-hint" aria-hidden="true"><ImageIcon size={15} /> View gallery</span>
+                    </button>
                   </div>
 
                   <div className="mt-3 grid gap-2 sm:grid-cols-2">
@@ -434,15 +460,6 @@ const Projects = () => {
                     })}
                   </div>
 
-                  <div className="mt-3 flex justify-end">
-                    <button
-                      type="button"
-                      onClick={() => openGallery(project)}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-zinc-700 bg-zinc-900 px-2 py-0.5 text-[0.75rem] font-semibold text-zinc-100 sm:px-2.5 sm:text-[0.75rem]"
-                    >
-                      <ImageIcon size={16} /> View gallery
-                    </button>
-                  </div>
                 </div>
               </section>
             </div>
@@ -491,11 +508,11 @@ const Projects = () => {
                   </div>
                 ))}
               </div>
-              {project.highlights.length > 5 && (
+              {project.highlights.length > (project.visibleHighlightCount ?? 3) && (
                 <div className="mt-5 border-t border-[var(--border-soft)] pt-5">
                   <h3 className="text-sm font-semibold text-slate-900">More highlights</h3>
                   <ul className="mt-2 list-disc space-y-2 pl-5 text-sm text-slate-700">
-                    {project.highlights.slice(5).map((highlight) => <li key={highlight}>{highlight}</li>)}
+                    {project.highlights.slice(project.visibleHighlightCount ?? 3).map((highlight) => <li key={highlight}>{highlight}</li>)}
                   </ul>
                 </div>
               )}
@@ -509,7 +526,7 @@ const Projects = () => {
                   rel="noreferrer"
                   className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border-soft)] px-3 py-1"
                 >
-                  <Github size={14} /> Frontend
+                  <GithubIcon size={14} className="text-[#24292f]" /> Frontend
                 </a>
               )}
               {project.backendGithub && (
@@ -519,7 +536,7 @@ const Projects = () => {
                   rel="noreferrer"
                   className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border-soft)] px-3 py-1"
                 >
-                  <Github size={14} /> Backend
+                  <GithubIcon size={14} className="text-[#24292f]" /> Backend
                 </a>
               )}
               {project.liveLink && (
@@ -590,7 +607,7 @@ const Projects = () => {
                   rel="noreferrer"
                   className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border-soft)] px-3 py-1 text-[0.75rem]"
                 >
-                  <Github size={13} /> GitHub
+                  <GithubIcon size={13} className="text-[#24292f]" /> GitHub
                 </a>
               </div>
             </article>

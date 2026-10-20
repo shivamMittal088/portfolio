@@ -22,7 +22,7 @@ export const devTinderSlides = [
   {
     id: "chat",
     title: "Real-time chat",
-    description: "Open a one-to-one conversation and exchange messages live through Socket.IO.",
+    description: "Connected developers exchange messages instantly through bidirectional WebSocket communication powered by Socket.IO.",
   },
   {
     id: "install",

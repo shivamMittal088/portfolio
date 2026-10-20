@@ -1,10 +1,12 @@
+import type { PointerEvent } from "react"
 import { Link } from "react-router-dom"
-import { ArrowUpRight, Download } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 import Interests from "./Interests"
 import TechnicalSkills from "./TechnicalSkills"
 import AILearning from "./AILearning"
 import WorkInMotion from "./WorkInMotion"
 import GoSharpenerLogo from "./GoSharpenerLogo"
+import RevealOnScroll from "./RevealOnScroll"
 
 const highlights = [
   { text: "Building full-stack products with React, TypeScript, Node.js, and MongoDB." },
@@ -18,24 +20,46 @@ const stats = [
   { value: "1", label: "Ongoing internship" },
 ]
 
-const standoutChips = ["React", "TypeScript", "Node.js", "MongoDB", "WebSockets"]
+const featuredStack = ["React", "TypeScript", "Node.js", "MongoDB"]
+
+const handleHeroPointerMove = (event: PointerEvent<HTMLElement>) => {
+  if (event.pointerType !== "mouse") return
+  const bounds = event.currentTarget.getBoundingClientRect()
+  event.currentTarget.style.setProperty("--spot-x", `${event.clientX - bounds.left}px`)
+  event.currentTarget.style.setProperty("--spot-y", `${event.clientY - bounds.top}px`)
+  event.currentTarget.style.setProperty("--spot-opacity", "1")
+}
+
+const handlePortraitPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+  if (event.pointerType !== "mouse") return
+  const bounds = event.currentTarget.getBoundingClientRect()
+  const x = (event.clientX - bounds.left) / bounds.width - 0.5
+  const y = (event.clientY - bounds.top) / bounds.height - 0.5
+  event.currentTarget.style.setProperty("--tilt-x", `${(-y * 5).toFixed(2)}deg`)
+  event.currentTarget.style.setProperty("--tilt-y", `${(x * 5).toFixed(2)}deg`)
+}
 
 const Hero = () => {
   return (
     <div className="space-y-8 sm:space-y-10">
-      <section className="hero-section section-shell overflow-hidden">
-        <div className="grid items-center gap-10 lg:grid-cols-[1.3fr_0.7fr] lg:gap-14">
+      <section
+        className="hero-section section-shell overflow-hidden"
+        onPointerMove={handleHeroPointerMove}
+        onPointerLeave={(event) => event.currentTarget.style.setProperty("--spot-opacity", "0")}
+      >
+        <div className="hero-spotlight" aria-hidden="true" />
+        <div className="hero-layout grid items-center gap-8 lg:grid-cols-[1.3fr_0.7fr] lg:gap-10">
           <div className="hero-copy">
-            <p className="section-label mb-5">Full-stack developer · Open to opportunities</p>
-            <h1 className="section-title">Hi, I’m Shivam Mittal.</h1>
-            <p className="mt-5 max-w-2xl text-xl font-medium leading-snug text-slate-800 sm:text-2xl">
-              I build reliable web products with clear, thoughtful interfaces.
+            <p className="section-label mb-3">Shivam Mittal · Full-stack developer</p>
+            <h1 className="section-title">I take software from idea to deployment.</h1>
+            <p className="mt-4 max-w-2xl text-lg font-medium leading-snug text-slate-800 sm:text-xl">
+              I enjoy planning, building, and shipping complete products.
             </p>
-            <p className="mt-4 max-w-xl text-base text-slate-600">
-              I work across frontend, backend, and product details—from the first workflow to a polished release.
+            <p className="mt-3 max-w-xl text-base text-slate-600">
+              When a challenge looks difficult, I break it into smaller problems, learn what’s needed, and use tools like LLMs to keep moving.
             </p>
 
-            <div className="hero-actions mt-7 flex flex-wrap gap-3">
+            <div className="hero-actions mt-5 flex flex-wrap gap-3">
               <Link
                 to="/projects"
                 className="hero-primary inline-flex min-h-11 items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
@@ -48,18 +72,11 @@ const Hero = () => {
               >
                 Contact me
               </Link>
-              <a
-                href="/Resume.pdf"
-                download
-                className="inline-flex min-h-11 items-center gap-2 px-3 py-2.5 text-sm font-semibold text-slate-600 transition hover:text-blue-700"
-              >
-                <Download size={17} aria-hidden="true" /> Download CV
-              </a>
             </div>
 
-            <ul className="hero-highlights mt-9 grid gap-3 text-sm text-slate-700 sm:grid-cols-3">
+            <ul className="hero-highlights mt-6 grid gap-3 text-sm text-slate-700 sm:grid-cols-3">
               {highlights.map((highlight) => (
-                <li key={highlight.text} className="hero-highlight border-l-2 border-blue-500 pl-3">
+                <li key={highlight.text} className="hero-highlight">
                   {highlight.goSharpener && <GoSharpenerLogo className="go-logo-hero mb-2" alt="" />}
                   {highlight.text}
                 </li>
@@ -67,39 +84,66 @@ const Hero = () => {
             </ul>
           </div>
 
-          <aside className="hero-portrait rounded-3xl bg-gradient-to-br from-blue-50 via-white to-slate-100 p-5 shadow-[0_16px_40px_rgba(15,23,42,0.08)] sm:p-7">
-            <div className="mx-auto aspect-square max-w-64 overflow-hidden rounded-2xl bg-slate-200 shadow-lg">
-              <img src="/shivam.jpeg" alt="Shivam Mittal" className="h-full w-full object-cover" />
-            </div>
-            <div className="mt-6">
-              <p className="text-lg font-bold text-slate-900">Shivam Mittal</p>
-              <p className="mt-1 text-sm text-slate-600">Full-stack developer</p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {standoutChips.map((chip) => (
-                  <span key={chip} className="rounded-full bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-sm">
-                    {chip}
-                  </span>
-                ))}
+          <div
+            className="hero-portrait-tilt"
+            onPointerMove={handlePortraitPointerMove}
+            onPointerLeave={(event) => {
+              event.currentTarget.style.setProperty("--tilt-x", "0deg")
+              event.currentTarget.style.setProperty("--tilt-y", "0deg")
+            }}
+          >
+            <aside className="hero-portrait">
+              <div className="hero-profile-top">
+                <div className="hero-photo-frame">
+                  <img src="/shivam.jpeg" alt="Shivam Mittal" className="hero-photo" />
+                </div>
+                <div className="hero-profile-copy">
+                  <span className="hero-profile-monogram" aria-hidden="true">SM.</span>
+                  <p className="hero-profile-label">The person behind the code</p>
+                  <p className="hero-profile-name">Shivam<br />Mittal<span aria-hidden="true">.</span></p>
+                  <p className="hero-profile-role">Full-stack developer</p>
+                </div>
               </div>
-            </div>
-          </aside>
+              <Link to="/projects" className="hero-featured-build">
+                <span className="hero-build-topline">
+                  <span className="hero-build-kicker"><span className="hero-build-dot" aria-hidden="true" /> Featured project</span>
+                  <ArrowUpRight size={18} aria-hidden="true" />
+                </span>
+                <span className="hero-build-title">Expense Tracker</span>
+                <span className="hero-build-description">Spending analytics, offline sync, and report exports in one full-stack app.</span>
+                <span className="hero-build-stack" aria-label="Built with">
+                  {featuredStack.map((chip) => <span key={chip} className="hero-build-chip">{chip}</span>)}
+                </span>
+              </Link>
+            </aside>
+          </div>
         </div>
       </section>
 
-      <WorkInMotion />
+      <RevealOnScroll>
+        <WorkInMotion />
+      </RevealOnScroll>
 
-      <section className="hero-stats grid gap-3 sm:grid-cols-3" aria-label="Portfolio highlights">
-        {stats.map((stat) => (
-          <div key={stat.label} className="stat-card section-surface">
-            <p className="text-3xl font-bold text-slate-900">{stat.value}</p>
-            <p className="mt-1 text-sm text-slate-600">{stat.label}</p>
-          </div>
-        ))}
-      </section>
+      <RevealOnScroll>
+        <section className="hero-stats grid gap-3 sm:grid-cols-3" aria-label="Portfolio highlights">
+          {stats.map((stat) => (
+            <div key={stat.label} className="stat-card section-surface">
+              <p className="text-3xl font-bold text-slate-900">{stat.value}</p>
+              <p className="mt-1 text-sm text-slate-600">{stat.label}</p>
+            </div>
+          ))}
+        </section>
+      </RevealOnScroll>
 
-      <TechnicalSkills />
-      <AILearning />
-      <Interests />
+      <RevealOnScroll>
+        <TechnicalSkills />
+      </RevealOnScroll>
+      <RevealOnScroll>
+        <AILearning />
+      </RevealOnScroll>
+      <RevealOnScroll>
+        <Interests />
+      </RevealOnScroll>
     </div>
   )
 }
